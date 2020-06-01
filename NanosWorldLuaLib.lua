@@ -78,6 +78,24 @@ function Rotator:RotateVector(V)
 	return V + (Q ^ T)
 end
 
+function Rotator:GetForwardVector()
+	PitchNoWinding = self.Pitch % 360
+	YawNoWinding = self.Yaw % 360
+
+	SP = math.sin(math.rad(PitchNoWinding))
+	CP = math.cos(math.rad(PitchNoWinding))
+
+	SY = math.sin(math.rad(YawNoWinding))
+	CY = math.cos(math.rad(YawNoWinding))
+
+	return Vector(CP * CY, CP * SY, SP)
+end
+
+function Rotator:Normalize()
+	self.Pitch = NanosMathLibrary.NormalizeAxis(self.Pitch)
+	self.Yaw = NanosMathLibrary.NormalizeAxis(self.Yaw)
+	self.Roll = NanosMathLibrary.NormalizeAxis(self.Roll)
+end
 
 --[[ Vector ]]
 
@@ -134,17 +152,30 @@ end
 
 
 --[[ Math Utility Library --]]
-NanosMathLibrary = {
+NanosMathLibrary = {}
 
-	--[[ Vector Functions --]]
+--[[ Vector Functions --]]
 
-	--[[ Rotator Functions --]]
+--[[ Rotator Functions --]]
 
-	GetForwardVector = function(Rotation)
-		return Rotation:RotateVector(Vector(1, 0, 0))
+function NanosMathLibrary.ClampAxis(Angle)
+	Angle = Angle % 360
+
+	if Angle < 0 then
+		Angle = Angle + 360
 	end
 
-}
+	return Angle
+end
 
+function NanosMathLibrary.NormalizeAxis(Angle)
+	Angle = NanosMathLibrary.ClampAxis(Angle)
+
+	if Angle > 180 then
+		Angle = Angle - 360;
+	end
+
+	return Angle
+end
 
 )
