@@ -1,7 +1,3 @@
-NANOS_LUA_FILE(
-
---[[ Please only use Block Comments --]]
-
 
 --[[ Color --]]
 
@@ -324,6 +320,3 @@ function NanosMathLibrary.RInterpConstantTo(Current, Target, DeltaTime, InterpSp
 
 	return Result
 end
-
-
-)
