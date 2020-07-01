@@ -42,6 +42,20 @@ function Vector2D.new(_X, _Y)
 	return Self
 end
 
+function Vector2D:__add(Other)
+	if type(Other) ~= "table" then Other = Vector2D(Other) end
+	return Vector2D(self.X + Other.X, self.Y + Other.Y)
+end
+
+function Vector2D:__sub(Other)
+	if type(Other) ~= "table" then Other = Vector2D(Other) end
+	return Vector2D(self.X - Other.X, self.Y - Other.Y)
+end
+
+function Vector2D:__tostring()
+	return "Vector2D(X = " .. self.X .. ", Y = " .. self.Y .. ")"
+end
+
 
 --[[ Rotator --]]
 
