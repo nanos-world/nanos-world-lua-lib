@@ -98,7 +98,7 @@ function Rotator:__tostring()
 end
 
 function Rotator:Equals(Other, Tolerance)
-	if not Tolerance then Tolerance = 0.0000001 end
+	if not Tolerance then Tolerance = 0.000001 end
 	return math.abs(NanosMathLibrary.NormalizeAxis(self.Pitch - Other.Pitch)) <= Tolerance 
 			and math.abs(NanosMathLibrary.NormalizeAxis(self.Yaw - Other.Yaw)) <= Tolerance 
 			and math.abs(NanosMathLibrary.NormalizeAxis(self.Roll - Other.Roll)) <= Tolerance
@@ -111,7 +111,7 @@ function Rotator:GetNormalized()
 end
 
 function Rotator:IsNearlyZero(Tolerance)
-	if not Tolerance then Tolerance = 0.0000001 end
+	if not Tolerance then Tolerance = 0.000001 end
 	return math.abs(self.Pitch) <= Tolerance and math.abs(self.Yaw) <= Tolerance and math.abs(self.Roll) <= Tolerance
 end
 
@@ -198,7 +198,7 @@ function Vector:__tostring()
 end
 
 function Vector:Equals(Other, Tolerance)
-	if not Tolerance then Tolerance = 0.0000001 end
+	if not Tolerance then Tolerance = 0.000001 end
 	return math.abs(NanosMathLibrary.NormalizeAxis(self.X - Other.X)) <= Tolerance 
 			and math.abs(NanosMathLibrary.NormalizeAxis(self.Y - Other.Y)) <= Tolerance 
 			and math.abs(NanosMathLibrary.NormalizeAxis(self.Z - Other.Z)) <= Tolerance
@@ -213,7 +213,7 @@ function Vector:Size()
 end
 
 function Vector:IsNearlyZero(Tolerance)
-	if not Tolerance then Tolerance = 0.0000001 end
+	if not Tolerance then Tolerance = 0.000001 end
 	return math.abs(self.X) <= Tolerance and math.abs(self.Y) <= Tolerance and math.abs(self.Z) <= Tolerance
 end
 
