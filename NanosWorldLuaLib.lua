@@ -21,6 +21,34 @@ function Color.new(_R, _G, _B, _A)
 	return Self
 end
 
+function Color:__add(other)
+	if type(other) ~= "table" then other = Color(other) end
+	return Color(self.R + other.R, self.G + other.G, self.B + other.B, self.A + other.A)
+end
+
+function Color:__sub(other)
+	if type(other) ~= "table" then other = Color(other) end
+	return Color(self.R - other.R, self.G - other.G, self.B - other.B, self.A - other.A)
+end
+
+function Color:__mul(other)
+	if type(other) ~= "table" then other = Color(other) end
+	return Color(self.R * other.R, self.G * other.G, self.B * other.B, self.A * other.A)
+end
+
+function Color:__div(other)
+	if type(other) ~= "table" then other = Color(other) end
+	return Color(self.R / other.R, self.G / other.G, self.B / other.B, self.A / other.A);
+end
+
+function Color:__eq(other)
+	return self.R == other.R and self.G == other.G and self.B == other.B and self.A == other.A
+end
+
+function Color:__tostring()
+	return "Color(R = " .. self.R .. ", G = " .. self.G .. ", B = " .. self.B .. ", A = " .. self.A .. ")"
+end
+
 
 --[[ Vector2D --]]
 
@@ -42,14 +70,28 @@ function Vector2D.new(_X, _Y)
 	return Self
 end
 
-function Vector2D:__add(Other)
-	if type(Other) ~= "table" then Other = Vector2D(Other) end
-	return Vector2D(self.X + Other.X, self.Y + Other.Y)
+function Vector2D:__add(other)
+	if type(other) ~= "table" then other = Vector2D(other) end
+	return Vector2D(self.X + other.X, self.Y + other.Y)
 end
 
-function Vector2D:__sub(Other)
-	if type(Other) ~= "table" then Other = Vector2D(Other) end
-	return Vector2D(self.X - Other.X, self.Y - Other.Y)
+function Vector2D:__sub(other)
+	if type(other) ~= "table" then other = Vector2D(other) end
+	return Vector2D(self.X - other.X, self.Y - other.Y)
+end
+
+function Vector2D:__mul(other)
+	if type(other) ~= "table" then other = Vector2D(other) end
+	return Vector2D(self.X * other.X, self.Y * other.Y)
+end
+
+function Vector2D:__div(other)
+	if type(other) ~= "table" then other = Vector2D(other) end
+	return Vector2D(self.X / other.X, self.Y / other.Y);
+end
+
+function Vector2D:__eq(other)
+	return self.X == other.X and self.Y == other.Y
 end
 
 function Vector2D:__tostring()
@@ -68,51 +110,51 @@ setmetatable(Rotator, {
 	end
 })
 
-function Rotator.new(_Pitch, _Yaw, _Roll)
+function Rotator.new(_pitch, _yaw, _roll)
 	local Self = setmetatable({}, Rotator)
 
-	Self.Pitch = _Pitch or 0
-	Self.Yaw = _Yaw or _Pitch or 0
-	Self.Roll = _Roll or _Pitch or 0
+	Self.Pitch = _pitch or 0
+	Self.Yaw = _yaw or _pitch or 0
+	Self.Roll = _roll or _pitch or 0
 
 	return Self
 end
 
-function Rotator:__add(Other)
-	if type(Other) ~= "table" then Other = Rotator(Other) end
-	return Rotator(self.Pitch + Other.Pitch, self.Yaw + Other.Yaw, self.Roll + Other.Roll)
+function Rotator:__add(other)
+	if type(other) ~= "table" then other = Rotator(other) end
+	return Rotator(self.Pitch + other.Pitch, self.Yaw + other.Yaw, self.Roll + other.Roll)
 end
 
-function Rotator:__sub(Other)
-	if type(Other) ~= "table" then Other = Rotator(Other) end
-	return Rotator(self.Pitch - Other.Pitch, self.Yaw - Other.Yaw, self.Roll - Other.Roll)
+function Rotator:__sub(other)
+	if type(other) ~= "table" then other = Rotator(other) end
+	return Rotator(self.Pitch - other.Pitch, self.Yaw - other.Yaw, self.Roll - other.Roll)
 end
 
-function Rotator:__mul(Other)
-	if type(Other) ~= "table" then Other = Rotator(Other) end
-	return Rotator(self.Pitch * Other.Pitch, self.Yaw * Other.Yaw, self.Roll * Other.Roll)
+function Rotator:__mul(other)
+	if type(other) ~= "table" then other = Rotator(other) end
+	return Rotator(self.Pitch * other.Pitch, self.Yaw * other.Yaw, self.Roll * other.Roll)
 end
 
 function Rotator:__tostring()
 	return "Rotator(Pitch = " .. self.Pitch .. ", Yaw = " .. self.Yaw .. ", Roll = " .. self.Roll .. ")"
 end
 
-function Rotator:Equals(Other, Tolerance)
-	if not Tolerance then Tolerance = 0.000001 end
-	return math.abs(NanosMathLibrary.NormalizeAxis(self.Pitch - Other.Pitch)) <= Tolerance 
-			and math.abs(NanosMathLibrary.NormalizeAxis(self.Yaw - Other.Yaw)) <= Tolerance 
-			and math.abs(NanosMathLibrary.NormalizeAxis(self.Roll - Other.Roll)) <= Tolerance
+function Rotator:Equals(other, tolerance)
+	if not tolerance then tolerance = 0.000001 end
+	return math.abs(NanosMathLibrary.NormalizeAxis(self.Pitch - other.Pitch)) <= tolerance 
+			and math.abs(NanosMathLibrary.NormalizeAxis(self.Yaw - other.Yaw)) <= tolerance 
+			and math.abs(NanosMathLibrary.NormalizeAxis(self.Roll - other.Roll)) <= tolerance
 end
 
 function Rotator:GetNormalized()
-	local NewRot = Rotator(self.X, self.Y, self.Z)
-	NewRot:Normalize()
-	return NewRot
+	local new_rotation = Rotator(self.X, self.Y, self.Z)
+	new_rotation:Normalize()
+	return new_rotation
 end
 
-function Rotator:IsNearlyZero(Tolerance)
-	if not Tolerance then Tolerance = 0.000001 end
-	return math.abs(self.Pitch) <= Tolerance and math.abs(self.Yaw) <= Tolerance and math.abs(self.Roll) <= Tolerance
+function Rotator:IsNearlyZero(tolerance)
+	if not tolerance then tolerance = 0.000001 end
+	return math.abs(self.Pitch) <= tolerance and math.abs(self.Yaw) <= tolerance and math.abs(self.Roll) <= tolerance
 end
 
 function Rotator:IsZero()
@@ -120,20 +162,20 @@ function Rotator:IsZero()
 end
 
 function Rotator:RotateVector(V)
-	Q = Vector(self.Pitch, self.Yaw, self.Roll)
-	T = Vector(2) * (Q ^ V)
+	local Q = Vector(self.Pitch, self.Yaw, self.Roll)
+	local T = Vector(2) * (Q ^ V)
 	return V + (Q ^ T)
 end
 
 function Rotator:GetForwardVector()
-	PitchNoWinding = self.Pitch % 360
-	YawNoWinding = self.Yaw % 360
+	local pitch_no_winding = self.Pitch % 360
+	local yaw_no_winding = self.Yaw % 360
 
-	SP = math.sin(math.rad(PitchNoWinding))
-	CP = math.cos(math.rad(PitchNoWinding))
+	local SP = math.sin(math.rad(pitch_no_winding))
+	local CP = math.cos(math.rad(pitch_no_winding))
 
-	SY = math.sin(math.rad(YawNoWinding))
-	CY = math.cos(math.rad(YawNoWinding))
+	local SY = math.sin(math.rad(yaw_no_winding))
+	local CY = math.cos(math.rad(yaw_no_winding))
 
 	return Vector(CP * CY, CP * SY, SP)
 end
@@ -165,43 +207,43 @@ function Vector.new(_X, _Y, _Z)
 	return Self
 end
 
-function Vector:__add(Other)
-	if type(Other) ~= "table" then Other = Vector(Other) end
-	return Vector(self.X + Other.X, self.Y + Other.Y, self.Z + Other.Z)
+function Vector:__add(other)
+	if type(other) ~= "table" then other = Vector(other) end
+	return Vector(self.X + other.X, self.Y + other.Y, self.Z + other.Z)
 end
 
-function Vector:__sub(Other)
-	if type(Other) ~= "table" then Other = Vector(Other) end
-	return Vector(self.X - Other.X, self.Y - Other.Y, self.Z - Other.Z)
+function Vector:__sub(other)
+	if type(other) ~= "table" then other = Vector(other) end
+	return Vector(self.X - other.X, self.Y - other.Y, self.Z - other.Z)
 end
 
-function Vector:__mul(Other)
-	if type(Other) ~= "table" then Other = Vector(Other) end
-	return Vector(self.X * Other.X, self.Y * Other.Y, self.Z * Other.Z)
+function Vector:__mul(other)
+	if type(other) ~= "table" then other = Vector(other) end
+	return Vector(self.X * other.X, self.Y * other.Y, self.Z * other.Z)
 end
 
-function Vector:__div(Other)
-	if type(Other) ~= "table" then Other = Vector(Other) end
-	return Vector(self.X / Other.X, self.Y / Other.Y, self.Z / Other.Z);
+function Vector:__div(other)
+	if type(other) ~= "table" then other = Vector(other) end
+	return Vector(self.X / other.X, self.Y / other.Y, self.Z / other.Z);
 end
 
-function Vector:__pow(Other)
-	return Vector(self.Y * Other.Z - self.Z * Other.Y, self.Z * Other.X - self.X * Other.Z, self.X * Other.Y - self.Y * Other.X)
+function Vector:__pow(other)
+	return Vector(self.Y * other.Z - self.Z * other.Y, self.Z * other.X - self.X * other.Z, self.X * other.Y - self.Y * other.X)
 end
 
-function Vector:__eq(Other)
-	return self.X == Other.X and self.Y == Other.Y and self.Z == Other.Z
+function Vector:__eq(other)
+	return self.X == other.X and self.Y == other.Y and self.Z == other.Z
 end
 
 function Vector:__tostring()
 	return "Vector(X = " .. self.X .. ", Y = " .. self.Y .. ", Z = " .. self.Z .. ")"
 end
 
-function Vector:Equals(Other, Tolerance)
-	if not Tolerance then Tolerance = 0.000001 end
-	return math.abs(NanosMathLibrary.NormalizeAxis(self.X - Other.X)) <= Tolerance 
-			and math.abs(NanosMathLibrary.NormalizeAxis(self.Y - Other.Y)) <= Tolerance 
-			and math.abs(NanosMathLibrary.NormalizeAxis(self.Z - Other.Z)) <= Tolerance
+function Vector:Equals(other, tolerance)
+	if not tolerance then tolerance = 0.000001 end
+	return math.abs(NanosMathLibrary.NormalizeAxis(self.X - other.X)) <= tolerance 
+			and math.abs(NanosMathLibrary.NormalizeAxis(self.Y - other.Y)) <= tolerance 
+			and math.abs(NanosMathLibrary.NormalizeAxis(self.Z - other.Z)) <= tolerance
 end
 
 function Vector:SizeSquared()
@@ -212,21 +254,21 @@ function Vector:Size()
 	return math.sqrt(self:SizeSquared())
 end
 
-function Vector:IsNearlyZero(Tolerance)
-	if not Tolerance then Tolerance = 0.000001 end
-	return math.abs(self.X) <= Tolerance and math.abs(self.Y) <= Tolerance and math.abs(self.Z) <= Tolerance
+function Vector:IsNearlyZero(tolerance)
+	if not tolerance then tolerance = 0.000001 end
+	return math.abs(self.X) <= tolerance and math.abs(self.Y) <= tolerance and math.abs(self.Z) <= tolerance
 end
 
 function Vector:IsZero()
 	return self.X == 0 and self.Y == 0 and self.Z == 0
 end
 
-function Vector:DistanceSquared(Other)
-	return math.sqrt(Other.X - self.X) + math.sqrt(Other.Y - self.Y) + math.sqrt(Other.Z - self.Z)
+function Vector:DistanceSquared(other)
+	return math.sqrt(other.X - self.X) + math.sqrt(other.Y - self.Y) + math.sqrt(other.Z - self.Z)
 end
 
-function Vector:Distance(Other)
-	return math.sqrt(self:DistanceSquared(Other))
+function Vector:Distance(other)
+	return math.sqrt(self:DistanceSquared(other))
 end
 
 
@@ -239,98 +281,98 @@ function math.clamp(N, Low, High) return math.min(math.max(N, Low), High) end
 
 --[[ Rotator Functions --]]
 
-function NanosMathLibrary.ClampAxis(Angle)
-	Angle = Angle % 360
+function NanosMathLibrary.ClampAxis(angle)
+	local angle = angle % 360
 
-	if Angle < 0 then
-		Angle = Angle + 360
+	if angle < 0 then
+		angle = angle + 360
 	end
 
-	return Angle
+	return angle
 end
 
-function NanosMathLibrary.NormalizeAxis(Angle)
-	Angle = NanosMathLibrary.ClampAxis(Angle)
+function NanosMathLibrary.NormalizeAxis(angle)
+	local angle = NanosMathLibrary.ClampAxis(angle)
 
-	if Angle > 180 then
-		Angle = Angle - 360;
+	if angle > 180 then
+		angle = angle - 360;
 	end
 
-	return Angle
+	return angle
 end
 
-function NanosMathLibrary.FInterpTo(Current, Target, DeltaTime, InterpSpeed)
+function NanosMathLibrary.FInterpTo(current, target, delta_time, interp_speed)
 
-	if InterpSpeed <= 0 then return Target end
+	if interp_speed <= 0 then return target end
 
-	Delta = Target - Current
+	local delta = target - current
 
-	if math.sqrt(Delta) < 0.00001 then return Target end
+	if math.sqrt(delta) < 0.00001 then return target end
 
-	DeltaMove = Delta * math.clamp(DeltaTime * InterpSpeed, 0, 1)
+	local delta_move = delta * math.clamp(delta_time * interp_speed, 0, 1)
 
-	return Current + DeltaMove
+	return current + delta_move
 end
 
-function NanosMathLibrary.RInterpTo(Current, Target, DeltaTime, InterpSpeed)
+function NanosMathLibrary.RInterpTo(current, target, delta_time, interp_speed)
 	
-	if InterpSpeed <= 0 then return Target end
+	if interp_speed <= 0 then return target end
 
-	Delta = (Target - Current):GetNormalized()
+	local delta = (target - current):GetNormalized()
 
-	if (Delta:IsNearlyZero()) then return Target end
+	if (delta:IsNearlyZero()) then return target end
 
-	DeltaMove = Delta * math.clamp(DeltaTime * InterpSpeed, 0, 1)
+	local delta_move = delta * math.clamp(delta_time * interp_speed, 0, 1)
 
-	return (Current + DeltaMove):GetNormalized()
+	return (current + delta_move):GetNormalized()
 end
 
-function NanosMathLibrary.VInterpTo(Current, Target, DeltaTime, InterpSpeed)
+function NanosMathLibrary.VInterpTo(current, target, delta_time, interp_speed)
 	
-	if InterpSpeed <= 0 then return Target end
+	if interp_speed <= 0 then return target end
 
-	Delta = Target - Current
+	local delta = target - current
 
-	if (Delta:IsNearlyZero()) then return Target end
+	if (delta:IsNearlyZero()) then return target end
 
-	DeltaMove = Delta * math.clamp(DeltaTime * InterpSpeed, 0, 1)
+	local delta_move = delta * math.clamp(delta_time * interp_speed, 0, 1)
 
-	return Current + DeltaMove
+	return current + delta_move
 end
 
-function NanosMathLibrary.VInterpConstantTo(Current, Target, DeltaTime, InterpSpeed)
+function NanosMathLibrary.VInterpConstantTo(current, target, delta_time, interp_speed)
 
-	Delta = Target - Current
-	DeltaM = Delta:Size()
-	MaxStep = InterpSpeed * DeltaTime
+	local delta = target - current
+	local delta_m = delta:Size()
+	local max_step = interp_speed * delta_time
 
-	if (DeltaM > MaxStep) then
-		if (MaxStep > 0) then
-			DeltaN = Delta / DeltaM
-			return Current + DeltaN * MaxStep
+	if (delta_m > max_step) then
+		if (max_step > 0) then
+			local delta_n = delta / delta_m
+			return current + delta_n * max_step
 		end
 	else
-		return Current
+		return current
 	end
 
-	return Target
+	return target
 end
 
-function NanosMathLibrary.RInterpConstantTo(Current, Target, DeltaTime, InterpSpeed)
+function NanosMathLibrary.RInterpConstantTo(current, target, delta_time, interp_speed)
 
-	if DeltaTime == 0 or Current == Target then return Current end
-	if InterpSpeed <= 0 then return Target end
+	if delta_time == 0 or current == target then return current end
+	if interp_speed <= 0 then return target end
 
-	DeltaInterpSpeed = InterpSpeed * DeltaTime
-	DeltaMove = (Target - Current):GetNormalized()
+	local delta_interp_speed = interp_speed * delta_time
+	local delta_move = (target - current):GetNormalized()
 
-	Result = Rotator(
-		math.clamp(DeltaMove.Pitch, -DeltaInterpSpeed, DeltaInterpSpeed),
-		math.clamp(DeltaMove.Yaw, -DeltaInterpSpeed, DeltaInterpSpeed),
-		math.clamp(DeltaMove.Roll, -DeltaInterpSpeed, DeltaInterpSpeed)
+	local result = Rotator(
+		math.clamp(delta_move.Pitch, -delta_interp_speed, delta_interp_speed),
+		math.clamp(delta_move.Yaw, -delta_interp_speed, delta_interp_speed),
+		math.clamp(delta_move.Roll, -delta_interp_speed, delta_interp_speed)
 	)
 
-	Result:Normalize()
+	result:Normalize()
 
-	return Result
+	return result
 end
