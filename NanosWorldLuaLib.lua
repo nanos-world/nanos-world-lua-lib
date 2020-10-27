@@ -264,7 +264,7 @@ function Vector:IsZero()
 end
 
 function Vector:DistanceSquared(other)
-	return math.sqrt(other.X - self.X) + math.sqrt(other.Y - self.Y) + math.sqrt(other.Z - self.Z)
+	return ((other.X - self.X) ^ 2) + ((other.Y - self.Y) ^ 2) + ((other.Z - self.Z) ^ 2)
 end
 
 function Vector:Distance(other)
