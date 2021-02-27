@@ -1,3 +1,26 @@
+--[[ Enums --]]
+
+AimMode = {	None = 0, ADS = 1, ZoomedZoom = 2, Zoomed = 3, ZoomedFar = 4 }
+AnimationSlotType = { FullBody = 0, UpperBody = 1 }
+AttenuationFunction = { Linear = 0, Logarithmic = 1, Inverse = 2, LogReverse = 3, NaturalSound = 4 }
+CameraMode = { FPSTPS = 0, FPSOnly = 1, TPSOnly = 2 }
+CollisionType = { Normal = 0, StaticOnly = 1, NoCollision = 2 }
+DamageType = { Shot = 0, Explosion = 1 }
+DifferentialType = { LimitedSlip_4W = 0, LimitedSlip_FrontDrive = 1, LimitedSlip_RearDrive = 2, Open_4W = 3, Open_FrontDrive = 4, Open_RearDrive = 5 }
+FallingMode = { None = 0, Jumping = 1, Climbing = 2, Vaulting = 3, Falling = 4, HighFalling = 5, Parachuting = 6, SkyDiving = 7 }
+FontType= { Roboto = 0, GothicA1 = 1, PoiretOne = 2 }
+GaitMode = { None = 0, Walking = 1, Sprinting = 2 }
+HandlingMode = { SingleHandedWeapon = 0, DoubleHandedWeapon = 1, SingleHandedMelee = 2, DoubleHandedMelee = 3, Throwable = 4, Torch = 5, Barrel = 6, Box = 7 }
+LightType = { Point = 0, Spot = 1, React = 2 }
+MaterialType = { Masked = 1, Translucent = 2 }
+SoundType = { Linear = 0, Logarithmic = 1, Inverse = 2, LogReverse = 3, NaturalSound = 4 }
+StanceMode = { None = 0, Standing = 1, Crouching = 2, Proning = 3 }
+SwimmingMode = { None = 0, Superficie = 1, Underwater = 2 }
+TextRenderHorizontalAlignment = { Left = 0, Center = 1, Right = 2 }
+TextRenderType = { Lit = 0, Unlit = 1, UnlitAlwaysVisible = 2 }
+TextRenderVerticalAlignment = { Top = 0, Center = 1, Bottom = 2, QuadTop = 3 }
+ViewMode = { FPS = 0, TPS1 = 1, TPS2 = 2, TPS3 = 3 }
+
 
 --[[ Color --]]
 
