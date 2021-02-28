@@ -13,7 +13,7 @@ GaitMode = { None = 0, Walking = 1, Sprinting = 2 }
 HandlingMode = { SingleHandedWeapon = 0, DoubleHandedWeapon = 1, SingleHandedMelee = 2, DoubleHandedMelee = 3, Throwable = 4, Torch = 5, Barrel = 6, Box = 7 }
 LightType = { Point = 0, Spot = 1, React = 2 }
 MaterialType = { Masked = 1, Translucent = 2 }
-SoundType = { Linear = 0, Logarithmic = 1, Inverse = 2, LogReverse = 3, NaturalSound = 4 }
+SoundType = { SFX = 0, Music = 1 }
 StanceMode = { None = 0, Standing = 1, Crouching = 2, Proning = 3 }
 SwimmingMode = { None = 0, Superficie = 1, Underwater = 2 }
 TextRenderHorizontalAlignment = { Left = 0, Center = 1, Right = 2 }
