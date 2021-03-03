@@ -36,10 +36,10 @@ setmetatable(Color, {
 function Color.new(_R, _G, _B, _A)
 	local Self = setmetatable({}, Color)
 
-	Self.R = _R or 0
-	Self.G = _G or 0
-	Self.B = _B or 0
-	Self.A = _A or 1
+	Self.R = tonumber(_R) or 0
+	Self.G = tonumber(_G) or 0
+	Self.B = tonumber(_B) or 0
+	Self.A = tonumber(_A) or 1
 
 	return Self
 end
@@ -87,8 +87,8 @@ setmetatable(Vector2D, {
 function Vector2D.new(_X, _Y)
 	local Self = setmetatable({}, Vector2D)
 
-	Self.X = _X or 0
-	Self.Y = _Y or _X or 0
+	Self.X = tonumber(_X) or 0
+	Self.Y = tonumber(_Y) or Self.X or 0
 
 	return Self
 end
@@ -136,9 +136,9 @@ setmetatable(Rotator, {
 function Rotator.new(_pitch, _yaw, _roll)
 	local Self = setmetatable({}, Rotator)
 
-	Self.Pitch = _pitch or 0
-	Self.Yaw = _yaw or _pitch or 0
-	Self.Roll = _roll or _pitch or 0
+	Self.Pitch = tonumber(_pitch) or 0
+	Self.Yaw = tonumber(_yaw) or Self.Pitch or 0
+	Self.Roll = tonumber(_roll) or Self.Pitch or 0
 
 	return Self
 end
@@ -223,9 +223,9 @@ setmetatable(Vector, {
 function Vector.new(_X, _Y, _Z)
 	local Self = setmetatable({}, Vector)
 
-	Self.X = _X or 0
-	Self.Y = _Y or _X or 0
-	Self.Z = _Z or _X or 0
+	Self.X = tonumber(_X) or 0
+	Self.Y = tonumber(_Y) or Self.X or 0
+	Self.Z = tonumber(_Z) or Self.X or 0
 
 	return Self
 end
@@ -295,14 +295,20 @@ function Vector:Distance(other)
 end
 
 
+--[[ Math Default Overload Library --]]
+
+function math.clamp(value, low, high)
+	return math.min(math.max(value, low), high)
+end
+
+function math.round(value)
+	return math.floor(value + 0.5)
+end
+
+
 --[[ Math Utility Library --]]
+
 NanosMathLibrary = {}
-
-function math.clamp(N, Low, High) return math.min(math.max(N, Low), High) end
-
---[[ Vector Functions --]]
-
---[[ Rotator Functions --]]
 
 function NanosMathLibrary.ClampAxis(angle)
 	local angle = angle % 360
