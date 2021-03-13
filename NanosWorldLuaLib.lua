@@ -5,7 +5,8 @@ AnimationSlotType = { FullBody = 0, UpperBody = 1 }
 AttenuationFunction = { Linear = 0, Logarithmic = 1, Inverse = 2, LogReverse = 3, NaturalSound = 4 }
 CameraMode = { FPSTPS = 0, FPSOnly = 1, TPSOnly = 2 }
 CollisionType = { Normal = 0, StaticOnly = 1, NoCollision = 2 }
-DamageType = { Shot = 0, Explosion = 1 }
+ConstraintMotion = { Free = 0, Limited = 1, Locked = 2 }
+DamageType = { Shot = 0, Explosion = 1, Punch = 2, Fall = 3, RunOver = 4, Unknown = 5 }
 DifferentialType = { LimitedSlip_4W = 0, LimitedSlip_FrontDrive = 1, LimitedSlip_RearDrive = 2, Open_4W = 3, Open_FrontDrive = 4, Open_RearDrive = 5 }
 FallingMode = { None = 0, Jumping = 1, Climbing = 2, Vaulting = 3, Falling = 4, HighFalling = 5, Parachuting = 6, SkyDiving = 7 }
 FontType= { Roboto = 0, GothicA1 = 1, PoiretOne = 2 }
