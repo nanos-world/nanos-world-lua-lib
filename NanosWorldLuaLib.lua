@@ -13,6 +13,7 @@ FontType= { Roboto = 0, GothicA1 = 1, PoiretOne = 2 }
 GaitMode = { None = 0, Walking = 1, Sprinting = 2 }
 HandlingMode = { SingleHandedWeapon = 0, DoubleHandedWeapon = 1, SingleHandedMelee = 2, DoubleHandedMelee = 3, Throwable = 4, Torch = 5, Barrel = 6, Box = 7 }
 LightType = { Point = 0, Spot = 1, React = 2 }
+LogType = { Display = 0, Warning = 1,	Error = 2, Debug = 3, Verbose = 4, Scripting = 5, Chat = 6, WebUI = 7 }
 MaterialType = { Masked = 1, Translucent = 2 }
 SoundType = { SFX = 0, Music = 1 }
 StanceMode = { None = 0, Standing = 1, Crouching = 2, Proning = 3 }
@@ -21,6 +22,7 @@ TextRenderHorizontalAlignment = { Left = 0, Center = 1, Right = 2 }
 TextRenderType = { Lit = 0, Unlit = 1, UnlitAlwaysVisible = 2 }
 TextRenderVerticalAlignment = { Top = 0, Center = 1, Bottom = 2, QuadTop = 3 }
 ViewMode = { FPS = 0, TPS1 = 1, TPS2 = 2, TPS3 = 3 }
+VOIPSetting = { Local = 0, Global = 1, Muted = 2 }
 
 
 --[[ Color --]]
