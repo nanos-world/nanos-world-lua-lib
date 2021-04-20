@@ -297,6 +297,14 @@ function Vector:Distance(other)
 	return math.sqrt(self:DistanceSquared(other))
 end
 
+function Vector:Norm()
+  local m = self:SizeSquared()
+  if m~=0 then
+    self = self / m
+  end
+  return self
+end
+
 
 --[[ Math Default Overload Library --]]
 
