@@ -4,8 +4,10 @@ AimMode = {	None = 0, ADS = 1, ZoomedZoom = 2, Zoomed = 3, ZoomedFar = 4 }
 AnimationSlotType = { FullBody = 0, UpperBody = 1 }
 AttenuationFunction = { Linear = 0, Logarithmic = 1, Inverse = 2, LogReverse = 3, NaturalSound = 4 }
 CameraMode = { FPSTPS = 0, FPSOnly = 1, TPSOnly = 2 }
+CollisionChannel = { WorldStatic = 0, WorldDynamic = 1, Pawn = 2, PhysicsBody = 5, Vehicle = 6, Destructible = 7, TracePrimitive = 16, Mesh = 17, Foliage = 20 }
 CollisionType = { Normal = 0, StaticOnly = 1, NoCollision = 2 }
 ConstraintMotion = { Free = 0, Limited = 1, Locked = 2 }
+CrosshairType = { None = 0, Regular = 1, Circle = 2, Crossbow = 3, Dot = 4, Holo = 5, Launcher = 6, RegularX = 7, Rocket = 8, SeparatedTriangle = 9, Shotgun = 10, Square = 11, Submachine = 12, Tee = 13, ThreeDots = 14, Triangle = 15, Vee = 16 }
 DamageType = { Shot = 0, Explosion = 1, Punch = 2, Fall = 3, RunOver = 4, Unknown = 5 }
 DifferentialType = { LimitedSlip_4W = 0, LimitedSlip_FrontDrive = 1, LimitedSlip_RearDrive = 2, Open_4W = 3, Open_FrontDrive = 4, Open_RearDrive = 5 }
 FallingMode = { None = 0, Jumping = 1, Climbing = 2, Vaulting = 3, Falling = 4, HighFalling = 5, Parachuting = 6, SkyDiving = 7 }
@@ -17,13 +19,13 @@ LogType = { Display = 0, Warning = 1,	Error = 2, Debug = 3, Verbose = 4, Scripti
 MaterialType = { Masked = 1, Translucent = 2 }
 SoundType = { SFX = 0, Music = 1 }
 StanceMode = { None = 0, Standing = 1, Crouching = 2, Proning = 3 }
+SurfaceType = { Default = 0, Carpet = 1, Concrete = 2, Grass = 3, Gravel = 4, Ground = 5, MetalLight = 6, Plastic = 7, Sand = 8, Snow = 9, Water = 10, WoodLight = 11, Flesh = 12, MetalHeavy = 13, WoodHeavy = 14, Ice = 15, Mud = 16, Rock = 17, Thump = 18, Glass = 19 }
 SwimmingMode = { None = 0, Superficie = 1, Underwater = 2 }
 TextRenderHorizontalAlignment = { Left = 0, Center = 1, Right = 2 }
 TextRenderType = { Lit = 0, Unlit = 1, UnlitAlwaysVisible = 2 }
 TextRenderVerticalAlignment = { Top = 0, Center = 1, Bottom = 2, QuadTop = 3 }
 ViewMode = { FPS = 0, TPS1 = 1, TPS2 = 2, TPS3 = 3 }
 VOIPSetting = { Local = 0, Global = 1, Muted = 2 }
-
 
 --[[ Color --]]
 
@@ -64,7 +66,7 @@ end
 
 function Color:__div(other)
 	if type(other) ~= "table" then other = Color(other) end
-	return Color(self.R / other.R, self.G / other.G, self.B / other.B, self.A / other.A);
+	return Color(self.R / other.R, self.G / other.G, self.B / other.B, self.A / other.A)
 end
 
 function Color:__eq(other)
@@ -113,7 +115,7 @@ end
 
 function Vector2D:__div(other)
 	if type(other) ~= "table" then other = Vector2D(other) end
-	return Vector2D(self.X / other.X, self.Y / other.Y);
+	return Vector2D(self.X / other.X, self.Y / other.Y)
 end
 
 function Vector2D:__eq(other)
@@ -173,7 +175,7 @@ function Rotator:Equals(other, tolerance)
 end
 
 function Rotator:GetNormalized()
-	local new_rotation = Rotator(self.X, self.Y, self.Z)
+	local new_rotation = Rotator(self.Pitch, self.Yaw, self.Roll)
 	new_rotation:Normalize()
 	return new_rotation
 end
@@ -250,7 +252,7 @@ end
 
 function Vector:__div(other)
 	if type(other) ~= "table" then other = Vector(other) end
-	return Vector(self.X / other.X, self.Y / other.Y, self.Z / other.Z);
+	return Vector(self.X / other.X, self.Y / other.Y, self.Z / other.Z)
 end
 
 function Vector:__pow(other)
@@ -297,6 +299,44 @@ function Vector:Distance(other)
 	return math.sqrt(self:DistanceSquared(other))
 end
 
+function Vector:Normalize(tolerance)
+	if not tolerance then tolerance = 0.000001 end
+
+	local square_sum = self:SizeSquared()
+
+	if (square_sum > tolerance) then
+		local scale = 1 / math.sqrt(square_sum)
+
+		self.X = self.X * scale
+		self.Y = self.Y * scale
+		self.Z = self.Z * scale
+
+		return true
+	end
+
+	return false
+end
+
+function Vector:GetUnsafeNormal()
+	local scale = 1 / math.sqrt(self:SizeSquared())
+	return self * scale
+end
+
+function Vector:GetSafeNormal(tolerance)
+	if not tolerance then tolerance = 0.000001 end
+
+	local square_sum = self:SizeSquared()
+
+	if (square_sum == 1) then
+		return self
+	elseif (square_sum < tolerance) then
+		return Vector(0, 0, 0)
+	end
+
+	local scale = 1 / math.sqrt(square_sum)
+	return self * scale
+end
+
 
 --[[ Math Default Overload Library --]]
 
@@ -327,7 +367,7 @@ function NanosMathLibrary.NormalizeAxis(angle)
 	local angle = NanosMathLibrary.ClampAxis(angle)
 
 	if angle > 180 then
-		angle = angle - 360;
+		angle = angle - 360
 	end
 
 	return angle
@@ -347,7 +387,7 @@ function NanosMathLibrary.FInterpTo(current, target, delta_time, interp_speed)
 end
 
 function NanosMathLibrary.RInterpTo(current, target, delta_time, interp_speed)
-	
+
 	if interp_speed <= 0 then return target end
 
 	local delta = (target - current):GetNormalized()
@@ -360,7 +400,7 @@ function NanosMathLibrary.RInterpTo(current, target, delta_time, interp_speed)
 end
 
 function NanosMathLibrary.VInterpTo(current, target, delta_time, interp_speed)
-	
+
 	if interp_speed <= 0 then return target end
 
 	local delta = target - current
