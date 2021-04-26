@@ -4,7 +4,7 @@ AimMode = {	None = 0, ADS = 1, ZoomedZoom = 2, Zoomed = 3, ZoomedFar = 4 }
 AnimationSlotType = { FullBody = 0, UpperBody = 1 }
 AttenuationFunction = { Linear = 0, Logarithmic = 1, Inverse = 2, LogReverse = 3, NaturalSound = 4 }
 CameraMode = { FPSTPS = 0, FPSOnly = 1, TPSOnly = 2 }
-CollisionChannel = { WorldStatic = 0, WorldDynamic = 1, Pawn = 2, PhysicsBody = 5, Vehicle = 6, Destructible = 7, TracePrimitive = 16, Mesh = 17, Foliage = 20 }
+CollisionChannel = { WorldStatic = 1 << 0, WorldDynamic = 1 << 1, Pawn = 1 << 2, PhysicsBody = 1 << 5, Vehicle = 1 << 6, Destructible = 1 << 7, TracePrimitive = 1 << 16, Mesh = 1 << 17, Foliage = 1 << 20 }
 CollisionType = { Normal = 0, StaticOnly = 1, NoCollision = 2 }
 ConstraintMotion = { Free = 0, Limited = 1, Locked = 2 }
 CrosshairType = { None = 0, Regular = 1, Circle = 2, Crossbow = 3, Dot = 4, Holo = 5, Launcher = 6, RegularX = 7, Rocket = 8, SeparatedTriangle = 9, Shotgun = 10, Square = 11, Submachine = 12, Tee = 13, ThreeDots = 14, Triangle = 15, Vee = 16 }
@@ -24,8 +24,10 @@ SwimmingMode = { None = 0, Superficie = 1, Underwater = 2 }
 TextRenderHorizontalAlignment = { Left = 0, Center = 1, Right = 2 }
 TextRenderType = { Lit = 0, Unlit = 1, UnlitAlwaysVisible = 2 }
 TextRenderVerticalAlignment = { Top = 0, Center = 1, Bottom = 2, QuadTop = 3 }
+TriggerType = { Sphere = 0, Box = 1 }
 ViewMode = { FPS = 0, TPS1 = 1, TPS2 = 2, TPS3 = 3 }
 VOIPSetting = { Local = 0, Global = 1, Muted = 2 }
+WeatherType = { Clear = 0, Rain = 1, Cloudy = 2, Thunderstorm = 3 }
 
 --[[ Color --]]
 
