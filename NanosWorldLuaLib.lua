@@ -43,14 +43,14 @@ setmetatable(Color, {
 })
 
 function Color.new(_R, _G, _B, _A)
-	local Self = setmetatable({}, Color)
+	local self = setmetatable({}, Color)
 
-	Self.R = tonumber(_R) or 0
-	Self.G = tonumber(_G) or 0
-	Self.B = tonumber(_B) or 0
-	Self.A = tonumber(_A) or 1
+	self.R = tonumber(_R) or 0
+	self.G = tonumber(_G) or self.R
+	self.B = tonumber(_B) or self.G
+	self.A = tonumber(_A) or 1
 
-	return Self
+	return self
 end
 
 function Color:__add(other)
@@ -81,6 +81,48 @@ function Color:__tostring()
 	return "Color(R = " .. self.R .. ", G = " .. self.G .. ", B = " .. self.B .. ", A = " .. self.A .. ")"
 end
 
+Color.WHITE =		Color(1,   1,   1)
+Color.BLACK =		Color(0,   0,   0)
+
+Color.RED =			Color(1,   0,   0)
+Color.GREEN =		Color(0,   1,   0)
+Color.BLUE =		Color(0,   0,   1)
+
+Color.YELLOW =		Color(1,   1,   0)
+Color.CYAN =		Color(0,   1,   1)
+Color.MAGENTA =		Color(1,   0,   1)
+
+Color.ORANGE =		Color(1,   0.5, 0)
+Color.CHARTREUSE =	Color(0.5, 1,   1)
+Color.AQUAMARINE =	Color(0,   1,   0.5)
+Color.AZURE =		Color(0,   0.5, 1)
+Color.VIOLET =		Color(0.5, 0,   1)
+Color.ROSE =		Color(1,   0,   0.5)
+
+Color.PALETTE = {
+	Color.WHITE,
+	Color.BLACK,
+	Color.RED,
+	Color.GREEN,
+	Color.BLUE,
+	Color.YELLOW,
+	Color.CYAN,
+	Color.MAGENTA,
+	Color.ORANGE,
+	Color.CHARTREUSE,
+	Color.AQUAMARINE,
+	Color.AZURE,
+	Color.VIOLET,
+	Color.ROSE,
+}
+
+function Color.RandomPalette()
+	return Color.PALETTE[math.random(#Color.PALETTE)]
+end
+
+function Color.Random()
+	return Color(math.random(), math.random(), math.random())
+end
 
 --[[ Vector2D --]]
 
@@ -94,12 +136,12 @@ setmetatable(Vector2D, {
 })
 
 function Vector2D.new(_X, _Y)
-	local Self = setmetatable({}, Vector2D)
+	local self = setmetatable({}, Vector2D)
 
-	Self.X = tonumber(_X) or 0
-	Self.Y = tonumber(_Y) or Self.X or 0
+	self.X = tonumber(_X) or 0
+	self.Y = tonumber(_Y) or self.X or 0
 
-	return Self
+	return self
 end
 
 function Vector2D:__add(other)
@@ -120,6 +162,10 @@ end
 function Vector2D:__div(other)
 	if type(other) ~= "table" then other = Vector2D(other) end
 	return Vector2D(self.X / other.X, self.Y / other.Y)
+end
+
+function Vector2D:__unm()
+	return Vector2D(-self.X, -self.Y)
 end
 
 function Vector2D:__eq(other)
@@ -143,13 +189,13 @@ setmetatable(Rotator, {
 })
 
 function Rotator.new(_pitch, _yaw, _roll)
-	local Self = setmetatable({}, Rotator)
+	local self = setmetatable({}, Rotator)
 
-	Self.Pitch = tonumber(_pitch) or 0
-	Self.Yaw = tonumber(_yaw) or Self.Pitch or 0
-	Self.Roll = tonumber(_roll) or Self.Pitch or 0
+	self.Pitch = tonumber(_pitch) or 0
+	self.Yaw = tonumber(_yaw) or self.Pitch or 0
+	self.Roll = tonumber(_roll) or self.Pitch or 0
 
-	return Self
+	return self
 end
 
 function Rotator:__add(other)
@@ -230,13 +276,13 @@ setmetatable(Vector, {
 })
 
 function Vector.new(_X, _Y, _Z)
-	local Self = setmetatable({}, Vector)
+	local self = setmetatable({}, Vector)
 
-	Self.X = tonumber(_X) or 0
-	Self.Y = tonumber(_Y) or Self.X or 0
-	Self.Z = tonumber(_Z) or Self.X or 0
+	self.X = tonumber(_X) or 0
+	self.Y = tonumber(_Y) or self.X or 0
+	self.Z = tonumber(_Z) or self.X or 0
 
-	return Self
+	return self
 end
 
 function Vector:__add(other)
@@ -261,6 +307,10 @@ end
 
 function Vector:__pow(other)
 	return Vector(self.Y * other.Z - self.Z * other.Y, self.Z * other.X - self.X * other.Z, self.X * other.Y - self.Y * other.X)
+end
+
+function Vector:__unm()
+	return Vector(-self.X, -self.Y, -self.Z)
 end
 
 function Vector:__eq(other)
