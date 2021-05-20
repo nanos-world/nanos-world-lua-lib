@@ -124,3 +124,11 @@ function Vector:GetSafeNormal(tolerance)
 	local scale = 1 / math.sqrt(square_sum)
 	return self * scale
 end
+
+function Vector:Rotation()
+	return Rotator(
+		math.atan(self.Z, math.sqrt(self.X * self.X + self.Y * self.Y)) * (180 / math.pi),
+		math.atan(self.Y, self.X) * (180 / math.pi),
+		0
+	)
+end
