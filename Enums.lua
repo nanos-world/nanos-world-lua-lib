@@ -2,6 +2,7 @@
 
 AimMode = {	None = 0, ADS = 1, ZoomedZoom = 2, Zoomed = 3, ZoomedFar = 4 }
 AnimationSlotType = { FullBody = 0, UpperBody = 1 }
+AttachmentRule = { KeepRelative = 0, KeepWorld = 1, SnapToTarget = 2 }
 AttenuationFunction = { Linear = 0, Logarithmic = 1, Inverse = 2, LogReverse = 3, NaturalSound = 4 }
 CameraMode = { FPSTPS = 0, FPSOnly = 1, TPSOnly = 2 }
 CollisionChannel = { WorldStatic = 1 << 0, WorldDynamic = 1 << 1, Pawn = 1 << 2, PhysicsBody = 1 << 5, Vehicle = 1 << 6, Destructible = 1 << 7, TracePrimitive = 1 << 16, Mesh = 1 << 17, Foliage = 1 << 20 }
