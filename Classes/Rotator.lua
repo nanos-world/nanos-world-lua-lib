@@ -86,3 +86,26 @@ function Rotator:Normalize()
 	self.Yaw = NanosMathLibrary.NormalizeAxis(self.Yaw)
 	self.Roll = NanosMathLibrary.NormalizeAxis(self.Roll)
 end
+
+function Rotator:Quaternion()
+	local deg_to_rad = math.pi / 180
+	local rads_divided_by_2 = deg_to_rad / 2
+
+	local pitch_no_winding = self.Pitch % 360
+	local yaw_no_winding = self.Yaw % 360
+	local roll_no_winding = self.Roll % 360
+
+	local SP = math.sin(pitch_no_winding * rads_divided_by_2)
+	local CP = math.cos(pitch_no_winding * rads_divided_by_2)
+	local SY = math.sin(yaw_no_winding * rads_divided_by_2)
+	local CY = math.cos(yaw_no_winding * rads_divided_by_2)
+	local SR = math.sin(roll_no_winding * rads_divided_by_2)
+	local CR = math.cos(roll_no_winding * rads_divided_by_2)
+
+	return Quat(
+		 CR * SP * SY - SR * CP * CY,
+		-CR * SP * CY - SR * CP * SY,
+		 CR * CP * SY - SR * SP * CY,
+		 CR * CP * CY + SR * SP * SY
+	)
+end
