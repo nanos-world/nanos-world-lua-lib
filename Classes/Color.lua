@@ -173,7 +173,7 @@ function Color.FromHEX(hex)
 			(number >> 12 & 15) / 15,
 			(number >> 8 & 15) / 15,
 			(number >> 4 & 15) / 15,
-			number & 15
+			(number & 15) / 15
 		)
 	-- is a full hex
 	elseif #hex == 6 or #hex == 8 then
