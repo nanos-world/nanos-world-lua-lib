@@ -44,7 +44,7 @@ function Quat:Rotator()
 	local singularity_test = self.Z * self.X - self.W * self.Y
 	local yaw_y = 2 * (self.W * self.Z + self.X * self.Y)
 	local yaw_x = 1 - 2 * (self.Y * self.Y + self.Z * self.Z)
-	
+
 	local singularity_threshold = 0.4999995
 	local rad_to_deg = 180 / math.pi
 
@@ -61,7 +61,7 @@ function Quat:Rotator()
 	else
 		rotator.Pitch = math.asin(2 * singularity_test) * rad_to_deg
 		rotator.Yaw = math.atan(yaw_y, yaw_x) * rad_to_deg
-		rotator.Roll = math.atan(-2 * (self.W * self. X + self.Y * self.Z), (1 - 2 * (self.X * self.X + self.Y * self.Y))) * rad_to_deg
+		rotator.Roll = math.atan(-2 * (self.W * self.X + self.Y * self.Z), (1 - 2 * (self.X * self.X + self.Y * self.Y))) * rad_to_deg
 	end
 
 	return rotator
