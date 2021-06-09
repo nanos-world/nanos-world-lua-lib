@@ -22,7 +22,7 @@ MaterialType = { None = 0, Masked = 1, Translucent = 2, TranslucentDepth = 3 }
 SoundType = { SFX = 0, Music = 1 }
 StanceMode = { None = 0, Standing = 1, Crouching = 2, Proning = 3 }
 SurfaceType = { Default = 0, Carpet = 1, Concrete = 2, Grass = 3, Gravel = 4, Ground = 5, MetalLight = 6, Plastic = 7, Sand = 8, Snow = 9, Water = 10, WoodLight = 11, Flesh = 12, MetalHeavy = 13, WoodHeavy = 14, Ice = 15, Mud = 16, Rock = 17, Thump = 18, Glass = 19 }
-SwimmingMode = { None = 0, Superficie = 1, Underwater = 2 }
+SwimmingMode = { None = 0, Surface = 1, Underwater = 2 }
 TextRenderAlignCamera = { Unaligned = 0, AlignCameraRotation = 1, FaceCamera = 2 }
 TextRenderBevelType = { Linear = 0, HalfCircle = 1, Convex = 2, Concave = 3, OneStep = 4, TwoSteps = 5, Engraved = 6 }
 TextRenderHorizontalAlignment = { Left = 0, Center = 1, Right = 2 }
