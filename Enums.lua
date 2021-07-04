@@ -13,7 +13,7 @@ CursorType = { None = 0, Default = 1, TextEditBeam = 2, ResizeLeftRight = 3, Res
 DamageType = { Shot = 0, Explosion = 1, Punch = 2, Fall = 3, RunOver = 4, Unknown = 5 }
 DifferentialType = { LimitedSlip_4W = 0, LimitedSlip_FrontDrive = 1, LimitedSlip_RearDrive = 2, Open_4W = 3, Open_FrontDrive = 4, Open_RearDrive = 5 }
 FallingMode = { None = 0, Jumping = 1, Climbing = 2, Vaulting = 3, Falling = 4, HighFalling = 5, Parachuting = 6, SkyDiving = 7 }
-FontType = { Roboto = 0, GothicA1 = 1, PoiretOne = 2, Oswald = 3, Roboto_Mono = 4 }
+FontType = { Roboto = 0, GothicA1 = 1, PoiretOne = 2, Oswald = 3, Roboto_Mono = 4, OpenSans = 5 }
 GaitMode = { None = 0, Walking = 1, Sprinting = 2 }
 HandlingMode = { SingleHandedWeapon = 0, DoubleHandedWeapon = 1, SingleHandedMelee = 2, DoubleHandedMelee = 3, Throwable = 4, Torch = 5, Barrel = 6, Box = 7 }
 LightType = { Point = 0, Spot = 1, React = 2 }

@@ -5,7 +5,7 @@ print = function(...)
 		toprint = toprint .. tostring(select(i, ...)) .. "\t"
 	end
 
-	return Package:Log(toprint)
+	return Package.Log(toprint)
 end
 
 -- Adds 'require' to searchers
