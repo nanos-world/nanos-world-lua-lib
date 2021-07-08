@@ -53,11 +53,11 @@ function Quat:Rotator()
 	if (singularity_test < -singularity_threshold) then
 		rotator.Pitch = -90
 		rotator.Yaw = math.atan(yaw_y, yaw_x) * rad_to_deg
-		rotator.Roll = NanosMathLibrary.NormalizeAxis(-rotator.Yaw - (2 * math.atan(self.X, self.W) * rad_to_deg))
+		rotator.Roll = NanosMath.NormalizeAxis(-rotator.Yaw - (2 * math.atan(self.X, self.W) * rad_to_deg))
 	elseif (singularity_test > singularity_threshold) then
 		rotator.Pitch = 90
 		rotator.Yaw = math.atan(yaw_y, yaw_x) * rad_to_deg
-		rotator.Roll = NanosMathLibrary.NormalizeAxis(rotator.Yaw - (2 * math.atan(self.X, self.W) * rad_to_deg))
+		rotator.Roll = NanosMath.NormalizeAxis(rotator.Yaw - (2 * math.atan(self.X, self.W) * rad_to_deg))
 	else
 		rotator.Pitch = math.asin(2 * singularity_test) * rad_to_deg
 		rotator.Yaw = math.atan(yaw_y, yaw_x) * rad_to_deg

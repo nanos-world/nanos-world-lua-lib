@@ -40,9 +40,9 @@ end
 
 function Rotator:Equals(other, tolerance)
 	if not tolerance then tolerance = 0.000001 end
-	return math.abs(NanosMathLibrary.NormalizeAxis(self.Pitch - other.Pitch)) <= tolerance 
-			and math.abs(NanosMathLibrary.NormalizeAxis(self.Yaw - other.Yaw)) <= tolerance 
-			and math.abs(NanosMathLibrary.NormalizeAxis(self.Roll - other.Roll)) <= tolerance
+	return math.abs(NanosMath.NormalizeAxis(self.Pitch - other.Pitch)) <= tolerance 
+			and math.abs(NanosMath.NormalizeAxis(self.Yaw - other.Yaw)) <= tolerance 
+			and math.abs(NanosMath.NormalizeAxis(self.Roll - other.Roll)) <= tolerance
 end
 
 function Rotator:GetNormalized()
@@ -82,9 +82,9 @@ function Rotator:GetForwardVector()
 end
 
 function Rotator:Normalize()
-	self.Pitch = NanosMathLibrary.NormalizeAxis(self.Pitch)
-	self.Yaw = NanosMathLibrary.NormalizeAxis(self.Yaw)
-	self.Roll = NanosMathLibrary.NormalizeAxis(self.Roll)
+	self.Pitch = NanosMath.NormalizeAxis(self.Pitch)
+	self.Yaw = NanosMath.NormalizeAxis(self.Yaw)
+	self.Roll = NanosMath.NormalizeAxis(self.Roll)
 end
 
 function Rotator:Quaternion()

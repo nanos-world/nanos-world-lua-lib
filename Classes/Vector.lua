@@ -57,9 +57,9 @@ end
 
 function Vector:Equals(other, tolerance)
 	if not tolerance then tolerance = 0.000001 end
-	return math.abs(NanosMathLibrary.NormalizeAxis(self.X - other.X)) <= tolerance 
-			and math.abs(NanosMathLibrary.NormalizeAxis(self.Y - other.Y)) <= tolerance 
-			and math.abs(NanosMathLibrary.NormalizeAxis(self.Z - other.Z)) <= tolerance
+	return math.abs(NanosMath.NormalizeAxis(self.X - other.X)) <= tolerance 
+			and math.abs(NanosMath.NormalizeAxis(self.Y - other.Y)) <= tolerance 
+			and math.abs(NanosMath.NormalizeAxis(self.Z - other.Z)) <= tolerance
 end
 
 function Vector:SizeSquared()
