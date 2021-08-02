@@ -10,14 +10,13 @@ setmetatable(Quat, {
 })
 
 function Quat.new(_x, _y, _z, _w)
-	local _self = setmetatable({}, Quat)
-
-	_self.X = tonumber(_x) or 0
-	_self.Y = tonumber(_y) or 0
-	_self.Z = tonumber(_z) or 0
-	_self.W = tonumber(_w) or 0
-
-	return _self
+	local X = tonumber(_X) or 0
+	return setmetatable({
+		X = X,
+		Y = tonumber(_Y) or X,
+		Z = tonumber(_Z) or X,
+		W = tonumber(_W) or X
+	}, Quat)
 end
 
 function Quat:__mul(other)

@@ -10,13 +10,12 @@ setmetatable(Rotator, {
 })
 
 function Rotator.new(_pitch, _yaw, _roll)
-	local _self = setmetatable({}, Rotator)
-
-	_self.Pitch = tonumber(_pitch) or 0
-	_self.Yaw = tonumber(_yaw) or _self.Pitch or 0
-	_self.Roll = tonumber(_roll) or _self.Pitch or 0
-
-	return _self
+	local Pitch = tonumber(_pitch) or 0
+	return setmetatable({
+		Pitch = Pitch,
+		Yaw = tonumber(_yaw) or Pitch,
+		Roll = tonumber(_roll) or Pitch
+	}, Rotator)
 end
 
 function Rotator:__add(other)

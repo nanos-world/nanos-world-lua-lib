@@ -10,13 +10,12 @@ setmetatable(Vector, {
 })
 
 function Vector.new(_X, _Y, _Z)
-	local _self = setmetatable({}, Vector)
-
-	_self.X = tonumber(_X) or 0
-	_self.Y = tonumber(_Y) or _self.X or 0
-	_self.Z = tonumber(_Z) or _self.X or 0
-
-	return _self
+	local X = tonumber(_X) or 0
+	return setmetatable({
+		X = X,
+		Y = tonumber(_Y) or X,
+		Z = tonumber(_Z) or X,
+	}, Vector)
 end
 
 function Vector:__add(other)

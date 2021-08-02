@@ -10,14 +10,12 @@ setmetatable(Color, {
 })
 
 function Color.new(_R, _G, _B, _A)
-	local _self = setmetatable({}, Color)
-
-	_self.R = tonumber(_R) or 0
-	_self.G = tonumber(_G) or _self.R
-	_self.B = tonumber(_B) or _self.G
-	_self.A = tonumber(_A) or 1
-
-	return _self
+	return setmetatable({
+		R = tonumber(_R) or 0,
+		G = tonumber(_G) or 0,
+		B = tonumber(_B) or 0,
+		A = tonumber(_A) or 0
+	}, Color)
 end
 
 function Color:__add(other)
