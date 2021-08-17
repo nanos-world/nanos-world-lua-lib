@@ -7,33 +7,38 @@ function NanosUtils.IsA(object, class)
 end
 
 function NanosUtils.Dump(object, indentation)
-	indentation = indentation or 0
+    indentation = indentation or 0
+    local visited = {}
 
-	if (type(object) == 'table') then
-		local keys = {}
+    local function dump(object)
+        if type(object) == 'table' and not visited[object] then
+            visited[object] = true
 
-		for key, v in pairs(object) do
-			table.insert(keys, key)
-		end
+            local keys = {}
 
-		table.sort(keys)
+            for key, v in pairs(object) do
+                table.insert(keys, key)
+            end
 
-		indentation = indentation + 1
+            table.sort(keys)
 
-		local output = indentation == 1 and "\n{" or "{"
+            indentation = indentation + 1
 
-		for k, key in pairs(keys) do
-			output = output .. "\n" .. string.rep(" ", indentation * 4) .. key .. ' = ' .. NanosUtils.Dump(object[key], indentation) .. ","
-		end
+            local output = indentation == 1 and "\n{" or "{"
 
-		indentation = indentation - 1
+            for k, key in pairs(keys) do
+                output = output .. "\n" .. string.rep(" ", indentation * 4) .. key .. ' = ' .. dump(object[key]) .. ","
+            end
 
-		return output .. "\n" .. string.rep(" ", indentation * 4) .. '}'
-	else
-		if type(object) == 'string' then
-			return '"'.. tostring(object) ..'"'
-		else
-			return tostring(object)
-		end
-	end
+            return output .. "\n" .. string.rep(" ", (indentation - 1) * 4) .. '}'
+        else
+            if type(object) == 'string' then
+                return '"'.. tostring(object) ..'"'
+            else
+                return tostring(object)
+            end
+        end
+    end
+
+    return dump(object)
 end
