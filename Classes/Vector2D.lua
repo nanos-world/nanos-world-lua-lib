@@ -10,9 +10,10 @@ setmetatable(Vector2D, {
 })
 
 function Vector2D.new(_X, _Y)
+	local X = tonumber(_X) or 0
 	return setmetatable({
-		X = tonumber(_X) or 0,
-		Y = tonumber(_Y) or 0
+		X = X,
+		Y = tonumber(_Y) or X
 	}, Vector2D)
 end
 
