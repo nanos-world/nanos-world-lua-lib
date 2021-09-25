@@ -108,3 +108,11 @@ function Rotator:Quaternion()
 		 CR * CP * CY + SR * SP * SY
 	)
 end
+
+function Rotator.Random(roll)
+	return Rotator(
+		math.random() * 360,
+		math.random() * 360,
+		roll and math.random() * 360 or 0
+	)
+end
