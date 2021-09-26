@@ -9,7 +9,7 @@ setmetatable(Quat, {
 	end
 })
 
-function Quat.new(_x, _y, _z, _w)
+function Quat.new(_X, _Y, _Z, _W)
 	local X = tonumber(_X) or 0
 	return setmetatable({
 		X = X,
