@@ -6,67 +6,65 @@ function NanosUtils.IsA(object, class)
 	return getmetatable(object) == class
 end
 
-local function sort_values(a, b)
-	if type(a) == "number" and type(b) == "number" then
-		return a < b
-	else
-		return tostring(a) < tostring(b)
-	end
-end
+function NanosUtils.Dump(full_object)
+	-- Table used to store already visited tables (avoid recursion)
+	local visited = {}
 
-function NanosUtils.Dump(object, depth, dumped)
-	depth = depth or 0
+	-- Internal recursive function
+	local function DumpRecursive(object, indentation)
+		local object_type = type(object)
 
-	if dumped then
-		local ref_depth = dumped[object]
-		if ref_depth then
-			return "<self " .. ref_depth .. ">"
-		end
-	else
-		dumped = {}
-	end
+		-- If it's a table and was not outputted yet
+		if (object_type == 'table' and not visited[object]) then
+			-- Marks as visited
+			visited[object] = true
 
-	local obj_type = type(object)
+			-- Table used to store the final output, which will be concatted in the end
+			local output_table = {}
 
-	if obj_type == "table" then
-		local keys = {}
+			-- Stores all keys in another table, sorting it
+			local keys = {}
 
-		do
-			local idx = 1
 			for key, v in pairs(object) do
-				keys[idx] = key
-				idx = idx + 1
+				table.insert(keys, key)
+			end
+
+			table.sort(keys, function(a, b)
+				if type(a) == "number" and type(b) == "number" then
+					return a < b
+				else
+					return tostring(a) < tostring(b)
+				end
+			end)
+
+			-- Increases one indentation, as we will start outputting table elements
+			indentation = indentation + 1
+
+			-- Main table displays '{' in a separated line, subsequent ones will be in the same line
+			table.insert(output_table, indentation == 1 and "\n{" or "{")
+
+			-- For each member of the table, recursively outputs it
+			for k, key in pairs(keys) do
+				table.insert(output_table, "\n" .. string.rep(" ", indentation * 4) .. tostring(key) .. " = " .. DumpRecursive(object[key], indentation) .. ",")
+			end
+
+			-- After outputted the whole table, backs one indentation
+			indentation = indentation - 1
+
+			-- Adds the closing bracket
+			table.insert(output_table, "\n" .. string.rep(" ", indentation * 4) .. "}")
+
+			-- After all, concats all elements into the output
+			return table.concat(output_table)
+		else
+			-- Outputs string with quotes
+			if (object_type == "string") then
+				return '"' .. tostring(object) .. '"'
+			else
+				return tostring(object)
 			end
 		end
-
-		table.sort(keys, sort_values)
-
-		depth = depth + 1
-
-		local output = {'{'}
-		local indent = string.rep(' ', depth * 4)
-
-		dumped[object] = depth
-		for k, key in pairs(keys) do
-			local ty, value = type(key), object[key]
-			if ty == "number" then
-				key = '[' .. key .. ']'
-			elseif ty ~= "string" then
-				key = '[' .. tostring(key) .. ']'
-			end
-			output[k + 1] = indent .. key .. " = " .. NanosUtils.Dump(value, depth, dumped) .. ','
-		end
-		dumped[object] = nil
-
-		depth = depth - 1
-
-		-- string.sub is faster than doing string.rep again. Remove the last 4 chars (indent)
-		output[#output + 1] = string.sub(indent, 1, -4) .. '}'
-
-		return table.concat(output, '\n')
-	elseif obj_type == "string" then
-		return '"' .. object .. '"'
-	else
-		return tostring(object)
 	end
+
+	return DumpRecursive(full_object, 0)
 end
