@@ -9,6 +9,10 @@ end
 function NanosUtils.Dump(full_object)
 	-- Table used to store already visited tables (avoid recursion)
 	local visited = {}
+	-- Table used to store the final output, which will be concatted in the end
+	local buffer = {}
+	-- Cache table.insert as local because it's faster
+	local table_insert = table.insert
 
 	-- Internal recursive function
 	local function DumpRecursive(object, indentation)
@@ -19,14 +23,11 @@ function NanosUtils.Dump(full_object)
 			-- Marks as visited
 			visited[object] = true
 
-			-- Table used to store the final output, which will be concatted in the end
-			local output_table = {}
-
 			-- Stores all keys in another table, sorting it
 			local keys = {}
 
 			for key, v in pairs(object) do
-				table.insert(keys, key)
+				table_insert(keys, key)
 			end
 
 			table.sort(keys, function(a, b)
@@ -41,30 +42,27 @@ function NanosUtils.Dump(full_object)
 			indentation = indentation + 1
 
 			-- Main table displays '{' in a separated line, subsequent ones will be in the same line
-			table.insert(output_table, indentation == 1 and "\n{" or "{")
+			table_insert(buffer, indentation == 1 and "\n{" or "{")
 
 			-- For each member of the table, recursively outputs it
-			for k, key in pairs(keys) do
-				table.insert(output_table, "\n" .. string.rep(" ", indentation * 4) .. tostring(key) .. " = " .. DumpRecursive(object[key], indentation) .. ",")
+			for k, key in ipairs(keys) do
+				table_insert(buffer, "\n" .. string.rep(" ", indentation * 4) .. tostring(key) .. " = ")
+				DumpRecursive(object[key], indentation)
+				table_insert(buffer, ",")
 			end
 
 			-- After outputted the whole table, backs one indentation
 			indentation = indentation - 1
 
 			-- Adds the closing bracket
-			table.insert(output_table, "\n" .. string.rep(" ", indentation * 4) .. "}")
-
-			-- After all, concats all elements into the output
-			return table.concat(output_table)
+			table_insert(buffer, "\n" .. string.rep(" ", indentation * 4) .. "}")
+		elseif (object_type == "string") then
+			table_insert(buffer, '"' .. tostring(object) .. '"')
 		else
-			-- Outputs string with quotes
-			if (object_type == "string") then
-				return '"' .. tostring(object) .. '"'
-			else
-				return tostring(object)
-			end
+			table_insert(buffer, tostring(object))
 		end
 	end
 
-	return DumpRecursive(full_object, 0)
+	DumpRecursive(full_object, 0)
+	return table.concat(buffer)
 end
