@@ -45,7 +45,7 @@ function NanosUtils.Dump(full_object)
 			table_insert(buffer, indentation == 1 and "\n{" or "{")
 
 			-- For each member of the table, recursively outputs it
-			for k, key in pairs(keys) do
+			for k, key in ipairs(keys) do
 				table_insert(buffer, "\n" .. string.rep(" ", indentation * 4) .. tostring(key) .. " = ")
 				DumpRecursive(object[key], indentation)
 				table_insert(buffer, ",")
