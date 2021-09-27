@@ -6,34 +6,67 @@ function NanosUtils.IsA(object, class)
 	return getmetatable(object) == class
 end
 
-function NanosUtils.Dump(object, indentation)
-	indentation = indentation or 0
+local function sort_values(a, b)
+	if type(a) == "number" and type(b) == "number" then
+		return a < b
+	else
+		return tostring(a) < tostring(b)
+	end
+end
 
-	if (type(object) == 'table') then
+function NanosUtils.Dump(object, depth, dumped)
+	depth = depth or 0
+
+	if dumped then
+		local ref_depth = dumped[object]
+		if ref_depth then
+			return "<self " .. ref_depth .. ">"
+		end
+	else
+		dumped = {}
+	end
+
+	local obj_type = type(object)
+
+	if obj_type == "table" then
 		local keys = {}
 
-		for key, v in pairs(object) do
-			table.insert(keys, key)
+		do
+			local idx = 1
+			for key, v in pairs(object) do
+				keys[idx] = key
+				idx = idx + 1
+			end
 		end
 
-		table.sort(keys)
+		table.sort(keys, sort_values)
 
-		indentation = indentation + 1
+		depth = depth + 1
 
-		local output = indentation == 1 and "\n{" or "{"
+		local output = {'{'}
+		local indent = string.rep(' ', depth * 4)
 
+		dumped[object] = depth
 		for k, key in pairs(keys) do
-			output = output .. "\n" .. string.rep(" ", indentation * 4) .. key .. ' = ' .. NanosUtils.Dump(object[key], indentation) .. ","
+			local ty, value = type(key), object[key]
+			if ty == "number" then
+				key = '[' .. key .. ']'
+			elseif ty ~= "string" then
+				key = '[' .. tostring(key) .. ']'
+			end
+			output[k + 1] = indent .. key .. " = " .. NanosUtils.Dump(value, depth, dumped) .. ','
 		end
+		dumped[object] = nil
 
-		indentation = indentation - 1
+		depth = depth - 1
 
-		return output .. "\n" .. string.rep(" ", indentation * 4) .. '}'
+		-- string.sub is faster than doing string.rep again. Remove the last 4 chars (indent)
+		output[#output + 1] = string.sub(indent, 1, -4) .. '}'
+
+		return table.concat(output, '\n')
+	elseif obj_type == "string" then
+		return '"' .. object .. '"'
 	else
-		if type(object) == 'string' then
-			return '"'.. tostring(object) ..'"'
-		else
-			return tostring(object)
-		end
+		return tostring(object)
 	end
 end
