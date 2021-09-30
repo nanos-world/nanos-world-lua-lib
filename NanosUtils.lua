@@ -9,8 +9,10 @@ end
 function NanosUtils.Dump(full_object)
 	-- Table used to store already visited tables (avoid recursion)
 	local visited = {}
+
 	-- Table used to store the final output, which will be concatted in the end
 	local buffer = {}
+
 	-- Cache table.insert as local because it's faster
 	local table_insert = table.insert
 
@@ -46,8 +48,13 @@ function NanosUtils.Dump(full_object)
 
 			-- For each member of the table, recursively outputs it
 			for k, key in ipairs(keys) do
+				-- Appends the Key with indentation
 				table_insert(buffer, "\n" .. string.rep(" ", indentation * 4) .. tostring(key) .. " = ")
+
+				-- Appends the Element
 				DumpRecursive(object[key], indentation)
+
+				-- Appends a last comma
 				table_insert(buffer, ",")
 			end
 
@@ -57,12 +64,17 @@ function NanosUtils.Dump(full_object)
 			-- Adds the closing bracket
 			table_insert(buffer, "\n" .. string.rep(" ", indentation * 4) .. "}")
 		elseif (object_type == "string") then
+			-- Outputs string with quotes
 			table_insert(buffer, '"' .. tostring(object) .. '"')
 		else
+			-- Anything else just stringify it
 			table_insert(buffer, tostring(object))
 		end
 	end
 
+	-- Main call
 	DumpRecursive(full_object, 0)
+
+	-- After all, concats the results
 	return table.concat(buffer)
 end
