@@ -32,6 +32,6 @@ TextRenderBevelType = { Linear = 0, HalfCircle = 1, Convex = 2, Concave = 3, One
 TextRenderHorizontalAlignment = { Left = 0, Center = 1, Right = 2 }
 TextRenderVerticalAlignment = { FirstLine = 0, Top = 1, Center = 2, Bottom = 3 }
 TriggerType = { Sphere = 0, Box = 1 }
-ViewMode = { FPS = 0, TPS1 = 1, TPS2 = 2, TPS3 = 3 }
+ViewMode = { FPS = 0, TPS1 = 1, TPS2 = 2, TPS3 = 3, TopDown = 4 }
 VOIPSetting = { Local = 0, Global = 1, Muted = 2 }
 WeatherType = { Clear = 0, Rain = 1, Cloudy = 2, Thunderstorm = 3 }
