@@ -48,8 +48,10 @@ function NanosUtils.Dump(full_object)
 
 			-- For each member of the table, recursively outputs it
 			for k, key in ipairs(keys) do
+				local formatted_key = type(key) == "number" and tostring(key) or '"' .. tostring(key) .. '"'
+
 				-- Appends the Key with indentation
-				table_insert(buffer, "\n" .. string.rep(" ", indentation * 4) .. tostring(key) .. " = ")
+				table_insert(buffer, "\n" .. string.rep(" ", indentation * 4) .. formatted_key .. " = ")
 
 				-- Appends the Element
 				DumpRecursive(object[key], indentation)
