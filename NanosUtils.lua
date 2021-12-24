@@ -6,6 +6,7 @@ function NanosUtils.IsA(object, class)
 	return getmetatable(object) == class
 end
 
+
 function NanosUtils.Dump(full_object)
 	-- Table used to store already visited tables (avoid recursion)
 	local visited = {}
@@ -22,6 +23,15 @@ function NanosUtils.Dump(full_object)
 
 		-- If it's a table and was not outputted yet
 		if (object_type == 'table' and not visited[object]) then
+			local object_metatable = getmetatable(object)
+
+			-- If it's a nanos world struct, just stringify it
+			if (object_metatable == Vector or object_metatable == Rotator or object_metatable == Vector2D or object_metatable == Color) then
+				-- Anything else just stringify it
+				table_insert(buffer, tostring(object))
+				return
+			end
+
 			-- Marks as visited
 			visited[object] = true
 
@@ -81,6 +91,7 @@ function NanosUtils.Dump(full_object)
 	return table.concat(buffer)
 end
 
+
 function NanosUtils.Benchmark(name, amount, func, ...)
 	collectgarbage()
 
@@ -96,4 +107,15 @@ function NanosUtils.Benchmark(name, amount, func, ...)
 	local elapsed_ms = (os.clock() - start_time) * 1000
 
 	Package.Log("Benchmark '%s' (x%d) took %.0fms.", name, amount, elapsed_ms)
+end
+
+
+function NanosUtils.FormatString(str, ...)
+	str = str or ""
+
+	for i, arg in ipairs { ... } do
+		str = string.gsub(str, "{" .. tonumber(i) .. "}", tostring(arg))
+	end
+
+	return str
 end

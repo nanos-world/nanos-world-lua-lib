@@ -14,8 +14,8 @@ NanosMathLibrary = {
 NanosMath = {}
 
 function NanosMath.Round(value, decimals)
-    local decimalShift = (10 ^ (decimals or 0))
-    return (math.floor((value * decimalShift) + 0.5) / decimalShift)
+	local decimal_shift = (10 ^ (decimals or 0))
+	return (math.floor((value * decimal_shift) + 0.5) / decimal_shift)
 end
 
 function NanosMath.Clamp(value, low, high)
