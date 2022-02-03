@@ -49,6 +49,7 @@ end
 
 Color.WHITE =		Color(1,   1,   1)
 Color.BLACK =		Color(0,   0,   0)
+Color.TRANSPARENT =	Color(0,   0,   0,	0)
 
 Color.RED =			Color(1,   0,   0)
 Color.GREEN =		Color(0,   1,   0)
