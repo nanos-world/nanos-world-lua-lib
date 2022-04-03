@@ -19,22 +19,52 @@ function Vector.new(_X, _Y, _Z)
 end
 
 function Vector:__add(other)
-	if type(other) ~= "table" then other = Vector(other) end
+	-- Vector + number
+	if (type(other) == "number") then
+		return Vector(self.X + other, self.Y + other, self.Z + other)
+	end
+
+	-- number + Vector
+	if (type(self) == "number") then
+		return Vector(self + other.X, self + other.Y, self + other.Z)
+	end
+
+	-- Assume Vector + Vector
 	return Vector(self.X + other.X, self.Y + other.Y, self.Z + other.Z)
 end
 
 function Vector:__sub(other)
-	if type(other) ~= "table" then other = Vector(other) end
+	-- Vector - number
+	if (type(other) == "number") then
+		return Vector(self.X - other, self.Y - other, self.Z - other)
+	end
+
+	-- Assume Vector - Vector
 	return Vector(self.X - other.X, self.Y - other.Y, self.Z - other.Z)
 end
 
 function Vector:__mul(other)
-	if type(other) ~= "table" then other = Vector(other) end
+	-- Vector * number
+	if (type(other) == "number") then
+		return Vector(self.X * other, self.Y * other, self.Z * other)
+	end
+
+	-- number * Vector
+	if (type(self) == "number") then
+		return Vector(self * other.X, self * other.Y, self * other.Z)
+	end
+
+	-- Assume Vector * Vector
 	return Vector(self.X * other.X, self.Y * other.Y, self.Z * other.Z)
 end
 
 function Vector:__div(other)
-	if type(other) ~= "table" then other = Vector(other) end
+	-- Vector / number
+	if (type(other) == "number") then
+		return Vector(self.X / other, self.Y / other, self.Z / other)
+	end
+
+	-- Assume Vector / Vector
 	return Vector(self.X / other.X, self.Y / other.Y, self.Z / other.Z)
 end
 
@@ -55,7 +85,7 @@ function Vector:__tostring()
 end
 
 function Vector:Equals(other, tolerance)
-	if not tolerance then tolerance = 0.000001 end
+	if (not tolerance) then tolerance = 0.000001 end
 	return math.abs(NanosMath.NormalizeAxis(self.X - other.X)) <= tolerance 
 			and math.abs(NanosMath.NormalizeAxis(self.Y - other.Y)) <= tolerance 
 			and math.abs(NanosMath.NormalizeAxis(self.Z - other.Z)) <= tolerance
@@ -70,7 +100,7 @@ function Vector:Size()
 end
 
 function Vector:IsNearlyZero(tolerance)
-	if not tolerance then tolerance = 0.000001 end
+	if (not tolerance) then tolerance = 0.000001 end
 	return math.abs(self.X) <= tolerance and math.abs(self.Y) <= tolerance and math.abs(self.Z) <= tolerance
 end
 
@@ -87,7 +117,7 @@ function Vector:Distance(other)
 end
 
 function Vector:Normalize(tolerance)
-	if not tolerance then tolerance = 0.000001 end
+	if (not tolerance) then tolerance = 0.000001 end
 
 	local square_sum = self:SizeSquared()
 
@@ -110,7 +140,7 @@ function Vector:GetUnsafeNormal()
 end
 
 function Vector:GetSafeNormal(tolerance)
-	if not tolerance then tolerance = 0.000001 end
+	if (not tolerance) then tolerance = 0.000001 end
 
 	local square_sum = self:SizeSquared()
 

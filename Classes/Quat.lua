@@ -20,6 +20,17 @@ function Quat.new(_X, _Y, _Z, _W)
 end
 
 function Quat:__mul(other)
+	-- Quat * number
+	if (type(other) == "number") then
+		return Quat(self.X * other, self.Y * other, self.Z * other, self.W * other)
+	end
+
+	-- number * Quat
+	if (type(self) == "number") then
+		return Quat(self * other.X, self * other.Y, self * other.Z, self * other.W)
+	end
+
+	-- Assume Quat * Quat
 	local T0 = (self.Z - self.Y) * (other.Y - other.Z)
 	local T1 = (self.W + self.X) * (other.W + other.X)
 	local T2 = (self.W - self.X) * (other.Y + other.Z)

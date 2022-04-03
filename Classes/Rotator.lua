@@ -19,17 +19,42 @@ function Rotator.new(_pitch, _yaw, _roll)
 end
 
 function Rotator:__add(other)
-	if type(other) ~= "table" then other = Rotator(other) end
+	-- Rotator + number
+	if (type(other) == "number") then
+		return Rotator(self.Pitch + other, self.Yaw + other, self.Roll + other)
+	end
+
+	-- number + Rotator
+	if (type(self) == "number") then
+		return Rotator(self + other.Pitch, self + other.Yaw, self + other.Roll)
+	end
+
+	-- Assume Rotator + Rotator
 	return Rotator(self.Pitch + other.Pitch, self.Yaw + other.Yaw, self.Roll + other.Roll)
 end
 
 function Rotator:__sub(other)
-	if type(other) ~= "table" then other = Rotator(other) end
+	-- Rotator - number
+	if (type(other) == "number") then
+		return Rotator(self.Pitch - other, self.Yaw - other, self.Roll - other)
+	end
+
+	-- Assume Rotator - Rotator
 	return Rotator(self.Pitch - other.Pitch, self.Yaw - other.Yaw, self.Roll - other.Roll)
 end
 
 function Rotator:__mul(other)
-	if type(other) ~= "table" then other = Rotator(other) end
+	-- Rotator * number
+	if (type(other) == "number") then
+		return Rotator(self.Pitch * other, self.Yaw * other, self.Roll * other)
+	end
+
+	-- number * Rotator
+	if (type(self) == "number") then
+		return Rotator(self * other.Pitch, self * other.Yaw, self * other.Roll)
+	end
+
+	-- Assume Rotator * Rotator
 	return Rotator(self.Pitch * other.Pitch, self.Yaw * other.Yaw, self.Roll * other.Roll)
 end
 

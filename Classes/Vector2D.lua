@@ -18,22 +18,52 @@ function Vector2D.new(_X, _Y)
 end
 
 function Vector2D:__add(other)
-	if type(other) ~= "table" then other = Vector2D(other) end
+	-- Vector2D + number
+	if (type(other) == "number") then
+		return Vector2D(self.X + other, self.Y + other)
+	end
+
+	-- number + Vector2D
+	if (type(self) == "number") then
+		return Vector2D(self + other.X, self + other.Y)
+	end
+
+	-- Assume Vector2D + Vector2D
 	return Vector2D(self.X + other.X, self.Y + other.Y)
 end
 
 function Vector2D:__sub(other)
-	if type(other) ~= "table" then other = Vector2D(other) end
+	-- Vector2D - number
+	if (type(other) == "number") then
+		return Vector2D(self.X - other, self.Y - other)
+	end
+
+	-- Assume Vector2D - Vector2D
 	return Vector2D(self.X - other.X, self.Y - other.Y)
 end
 
 function Vector2D:__mul(other)
-	if type(other) ~= "table" then other = Vector2D(other) end
+	-- Vector2D * number
+	if (type(other) == "number") then
+		return Vector2D(self.X * other, self.Y * other)
+	end
+
+	-- number * Vector2D
+	if (type(self) == "number") then
+		return Vector2D(self * other.X, self * other.Y)
+	end
+
+	-- Assume Vector2D * Vector2D
 	return Vector2D(self.X * other.X, self.Y * other.Y)
 end
 
 function Vector2D:__div(other)
-	if type(other) ~= "table" then other = Vector2D(other) end
+	-- Vector2D / number
+	if (type(other) == "number") then
+		return Vector2D(self.X / other, self.Y / other)
+	end
+
+	-- Assume Vector2D / Vector2D
 	return Vector2D(self.X / other.X, self.Y / other.Y)
 end
 
