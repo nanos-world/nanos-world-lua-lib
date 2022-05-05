@@ -77,6 +77,10 @@ function Color:__tostring()
 	return "Color(R = " .. self.R .. ", G = " .. self.G .. ", B = " .. self.B .. ", A = " .. self.A .. ")"
 end
 
+function Color:ToHEX()
+	return string.format("#%.2X%.2X%.2X%.2X", self.R * 255, self.G * 255, self.B * 255, self.A * 255)
+end
+
 Color.WHITE =		Color(1,   1,   1)
 Color.BLACK =		Color(0,   0,   0)
 Color.TRANSPARENT =	Color(0,   0,   0,	0)
