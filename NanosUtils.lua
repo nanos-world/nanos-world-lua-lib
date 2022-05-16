@@ -129,3 +129,28 @@ function NanosUtils.ToBool(val)
 
     return true
 end
+
+
+-- add Get/Set functions to a provided table
+function NanosUtils.AddAccessors(table, name, key, default_fallback)
+    if not table or (type(table) ~= "table") or not name or not key then
+        return
+    end
+
+    name, key = tostring(name)
+
+    if table["Set" .. name] or table["Get" .. name] then
+        return
+    end
+
+	key = tostring(key)
+
+	table["Set" .. name] = function( self, xVal )
+        self[key] = xVal
+        return self
+    end
+
+    table["Get" .. name] = function( self )
+        return (self[key] ~= nil) and self[key] or default_fallback
+    end
+end
