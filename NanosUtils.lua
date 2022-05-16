@@ -132,7 +132,17 @@ end
 
 
 -- add Get/Set functions to a provided table
-function NanosUtils.AddAccessors(table, name, key, default_fallback)
+local function valueToType(val, type)
+    if not type then return val end
+
+    if (type == "number") then return tonumber(val) end
+    if (type == "string") then return tostring(val) end
+    if (type == "boolean") then return NanosUtils.ToBool(val) end
+
+    return val
+end
+
+function NanosUtils.AddAccessors(table, name, key, type, default_fallback)
     if not table or (type(table) ~= "table") or not name or not key then
         return
     end
@@ -145,12 +155,12 @@ function NanosUtils.AddAccessors(table, name, key, default_fallback)
 
 	key = tostring(key)
 
-	table["Set" .. name] = function( self, xVal )
-        self[key] = xVal
+	table["Set" .. name] = function(self, val)
+        self[key] = valueToType(val, type)
         return self
     end
 
-    table["Get" .. name] = function( self )
+    table["Get" .. name] = function(self)
         return (self[key] ~= nil) and self[key] or default_fallback
     end
 end
