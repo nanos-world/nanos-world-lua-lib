@@ -119,3 +119,13 @@ function NanosUtils.FormatString(str, ...)
 
 	return str
 end
+
+
+-- converts any value to a boolean
+function NanosUtils.ToBool(val)
+    if not val or (val == "false") or (val == 0) or (val== "0") then
+        return false
+    end
+
+    return true
+end
