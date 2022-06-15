@@ -147,15 +147,13 @@ function NanosUtils.AddAccessors(table, name, key, type, default_fallback)
         return
     end
 
-    name, key = tostring(name)
+    name, key = tostring(name), tostring(key)
 
     if table["Set" .. name] or table["Get" .. name] then
         return
     end
 
-	key = tostring(key)
-
-	table["Set" .. name] = function(self, val)
+    table["Set" .. name] = function(self, val)
         self[key] = valueToType(val, type)
         return self
     end
