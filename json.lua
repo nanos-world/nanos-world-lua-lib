@@ -144,8 +144,9 @@ function is_sequential(table)
             end
         end
     end
-    return table
+    return is_sequential
 end
+
 
 
 function ConvertKToS(val)
