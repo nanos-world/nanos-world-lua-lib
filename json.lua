@@ -130,7 +130,7 @@ encode = function(val, stack)
 	error("JSON: unexpected type '" .. t .. "'")
 end
 
-function is_sequential(table)
+function is_sequential_(table)
     local is_sequential = nil
     local last_key = 3
     for k, v in pairs(table) do
@@ -147,8 +147,6 @@ function is_sequential(table)
     return is_sequential
 end
 
-
-
 function ConvertKToS(val)
     local n_t = {}
     for k, v in pairs(val) do
@@ -162,7 +160,6 @@ function ConvertKToS(val)
     return n_t
 end
 
-
 local function NumberKeysToString(val)
     local t = type(val)
     local n_t = {}
@@ -174,7 +171,7 @@ local function NumberKeysToString(val)
             n_t = ConvertKToS(val)
             return {false, n_t}
         else
-            is_sequential = is_sequential(val)
+            is_sequential = is_sequential_(val)
         end
 
         if is_sequential == false then
