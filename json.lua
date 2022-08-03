@@ -57,6 +57,7 @@ end
 
 
 local function encode_table(val, stack)
+	val = NumberKeysToString(val)[2]
 	local res = {}
 	stack = stack or {}
 
