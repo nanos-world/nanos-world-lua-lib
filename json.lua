@@ -160,7 +160,7 @@ function ConvertKToS(val)
     return n_t
 end
 
-local function NumberKeysToString(val)
+function NumberKeysToString(val)
     local t = type(val)
     local n_t = {}
     local is_sequential
