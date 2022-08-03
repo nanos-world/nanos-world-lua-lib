@@ -104,7 +104,6 @@ end
 
 
 local function encode_number(val)
-	Package.Log("number")
 	-- Check for NaN, -inf and inf
 	if val ~= val or val <= -math.huge or val >= math.huge then
 		error("JSON: unexpected number value '" .. tostring(val) .. "'")
