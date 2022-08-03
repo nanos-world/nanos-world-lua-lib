@@ -166,34 +166,26 @@ function ConvertKToS(val)
 end
 
 function NumberKeysToString(val)
-    local t = type(val)
     local n_t = {}
     local is_sequential
+    if val[1] == nil then
+        is_sequential = false
+        n_t = ConvertKToS(val)
+        return {false, n_t}
+    else
+        is_sequential = is_sequential_(val)
+    end
 
-    if (t == "table") then
-        if val[1] == nil then
-            is_sequential = false
-            n_t = ConvertKToS(val)
-            return {false, n_t}
-        else
-            is_sequential = is_sequential_(val)
-        end
-
-        if is_sequential == false then
-            n_t = ConvertKToS(val)
-            return {false, n_t}
-        else
-            return {true, n_t}
-        end
+    if is_sequential == false then
+        n_t = ConvertKToS(val)
+        return {false, n_t}
+    else
+        return {true, n_t}
     end
 end
 
-
-
-
 function JSON.stringify(val)
-    local t = type(val)
-    if t == "table" then
+    if type(val) == "table" then
         local n = NumberKeysToString(val)
         if n[1] == true then
             return encode(val)
