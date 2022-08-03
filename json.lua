@@ -192,13 +192,18 @@ end
 
 
 function JSON.stringify(val)
-	local n = NumberKeysToString(val)
-	if n[1] == true then
-		return encode(val)
-	else
-		local keys = n[2]
-		return encode(keys)
-	end
+    local t = type(val)
+    if t == "table" then
+        local n = NumberKeysToString(val)
+        if n[1] == true then
+            return encode(val)
+        else
+            local keys = n[2]
+            return encode(keys)
+        end
+    else
+        return encode(val)
+    end
 end
 
 
