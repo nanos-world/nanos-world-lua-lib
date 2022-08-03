@@ -268,8 +268,6 @@ local function parse_string(str, i)
 	local j = i + 1
 	local k = j
 	
-	
-
 	while j <= #str do
 		local x = str:byte(j)
 
