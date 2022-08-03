@@ -22,7 +22,7 @@
 -- SOFTWARE.
 --
 
-JSON = { _version = "0.1.2" }
+local json = { _version = "0.1.2" }
 
 -------------------------------------------------------------------------------
 -- Encode
@@ -104,6 +104,7 @@ end
 
 
 local function encode_number(val)
+	Package.Log("number")
 	-- Check for NaN, -inf and inf
 	if val ~= val or val <= -math.huge or val >= math.huge then
 		error("JSON: unexpected number value '" .. tostring(val) .. "'")
@@ -130,10 +131,58 @@ encode = function(val, stack)
 	error("JSON: unexpected type '" .. t .. "'")
 end
 
+local function NumberKeysToString(val)
+    local t = type(val)
+    local n_t = {}
+    local is_sequential
+
+    if (t == "table") then
+        if val[1] == nil then
+            is_sequential = false
+        else
+            local last_key = 3
+            for k, v in pairs(val) do
+                if type(k) == "number" then
+                    if k == last_key + 1 then
+                        last_key = k
+                        is_sequential = true
+                    else
+                        last_key = k
+                        is_sequential = false
+                    end
+                end
+            end
+        end
+        if is_sequential == false then
+            for k, v in pairs(val) do
+                local ty_key = type(k)
+                if ty_key == "number" then
+                    n_t["" .. k .. ""] = v
+                else
+                    n_t[k] = v
+                end
+            end
+        end
+    end
+    if is_sequential == false then
+        return {false, n_t}
+    else
+        return {true, n_t}
+    end
+end
+
+
 
 function JSON.stringify(val)
-	return ( encode(val) )
+	local n = NumberKeysToString(val)
+	if n[1] == true then
+		return encode(val)
+	else
+		local keys = n[2]
+		return encode(keys)
+	end
 end
+
 
 
 -------------------------------------------------------------------------------
@@ -219,6 +268,8 @@ local function parse_string(str, i)
 	local res = ""
 	local j = i + 1
 	local k = j
+	
+	
 
 	while j <= #str do
 		local x = str:byte(j)
@@ -230,6 +281,7 @@ local function parse_string(str, i)
 			res = res .. str:sub(k, j - 1)
 			j = j + 1
 			local c = str:sub(j, j)
+			
 			if c == "u" then
 				local hex = str:match("^[dD][89aAbB]%x%x\\u%x%x%x%x", j + 1)
 								or str:match("^%x%x%x%x", j + 1)
@@ -246,6 +298,11 @@ local function parse_string(str, i)
 
 		elseif x == 34 then -- `"`: End of string
 			res = res .. str:sub(k, j - 1)
+			if tonumber(res) ~= nil then
+				res = tonumber(res)
+				return res, j + 1
+			end
+			
 			return res, j + 1
 		end
 
