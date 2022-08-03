@@ -130,6 +130,38 @@ encode = function(val, stack)
 	error("JSON: unexpected type '" .. t .. "'")
 end
 
+function is_sequential(table)
+    local is_sequential = nil
+    local last_key = 3
+    for k, v in pairs(table) do
+        if type(k) == "number" then
+            if k == last_key + 1 then
+                last_key = k
+                is_sequential = true
+            else
+                last_key = k
+                is_sequential = false
+            end
+        end
+    end
+    return table
+end
+
+
+function ConvertKToS(val)
+    local n_t = {}
+    for k, v in pairs(val) do
+        local ty_key = type(k)
+        if ty_key == "number" then
+            n_t["" .. k .. ""] = v
+        else
+            n_t[k] = v
+        end
+    end
+    return n_t
+end
+
+
 local function NumberKeysToString(val)
     local t = type(val)
     local n_t = {}
@@ -138,37 +170,21 @@ local function NumberKeysToString(val)
     if (t == "table") then
         if val[1] == nil then
             is_sequential = false
+            n_t = ConvertKToS(val)
+            return {false, n_t}
         else
-            local last_key = 3
-            for k, v in pairs(val) do
-                if type(k) == "number" then
-                    if k == last_key + 1 then
-                        last_key = k
-                        is_sequential = true
-                    else
-                        last_key = k
-                        is_sequential = false
-                    end
-                end
-            end
+            is_sequential = is_sequential(val)
         end
+
         if is_sequential == false then
-            for k, v in pairs(val) do
-                local ty_key = type(k)
-                if ty_key == "number" then
-                    n_t["" .. k .. ""] = v
-                else
-                    n_t[k] = v
-                end
-            end
+            n_t = ConvertKToS(val)
+            return {false, n_t}
+        else
+            return {true, n_t}
         end
-    end
-    if is_sequential == false then
-        return {false, n_t}
-    else
-        return {true, n_t}
     end
 end
+
 
 
 
