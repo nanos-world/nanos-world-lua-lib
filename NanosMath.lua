@@ -25,7 +25,7 @@ end
 function NanosMath.ClampAxis(angle)
 	local new_angle = angle % 360
 
-	if new_angle < 0 then
+	if (new_angle < 0) then
 		new_angle = new_angle + 360
 	end
 
@@ -35,7 +35,7 @@ end
 function NanosMath.NormalizeAxis(angle)
 	local new_angle = NanosMath.ClampAxis(angle)
 
-	if new_angle > 180 then
+	if (new_angle > 180) then
 		new_angle = new_angle - 360
 	end
 
@@ -43,11 +43,11 @@ function NanosMath.NormalizeAxis(angle)
 end
 
 function NanosMath.FInterpTo(current, target, delta_time, interp_speed)
-	if interp_speed <= 0 then return target end
+	if (interp_speed <= 0) then return target end
 
 	local delta = target - current
 
-	if math.sqrt(delta) < 0.00001 then return target end
+	if (math.sqrt(delta) < 0.00001) then return target end
 
 	local delta_move = delta * NanosMath.Clamp(delta_time * interp_speed, 0, 1)
 
@@ -55,7 +55,7 @@ function NanosMath.FInterpTo(current, target, delta_time, interp_speed)
 end
 
 function NanosMath.RInterpTo(current, target, delta_time, interp_speed)
-	if interp_speed <= 0 then return target end
+	if (interp_speed <= 0) then return target end
 
 	local delta = (target - current):GetNormalized()
 
@@ -67,7 +67,7 @@ function NanosMath.RInterpTo(current, target, delta_time, interp_speed)
 end
 
 function NanosMath.VInterpTo(current, target, delta_time, interp_speed)
-	if interp_speed <= 0 then return target end
+	if (interp_speed <= 0) then return target end
 
 	local delta = target - current
 
@@ -96,8 +96,8 @@ function NanosMath.VInterpConstantTo(current, target, delta_time, interp_speed)
 end
 
 function NanosMath.RInterpConstantTo(current, target, delta_time, interp_speed)
-	if delta_time == 0 or current == target then return current end
-	if interp_speed <= 0 then return target end
+	if (delta_time == 0 or current == target) then return current end
+	if (interp_speed <= 0) then return target end
 
 	local delta_interp_speed = interp_speed * delta_time
 	local delta_move = (target - current):GetNormalized()
@@ -111,4 +111,20 @@ function NanosMath.RInterpConstantTo(current, target, delta_time, interp_speed)
 	result:Normalize()
 
 	return result
+end
+
+function NanosMath.RelativeTo(location, rotation, actor)
+	local actor_location = actor:GetLocation()
+	local actor_rotation = actor:GetRotation()
+	local relative_location = actor_rotation:RotateVector(location - actor_location) / actor:GetScale()
+
+	-- Converts the Rotations to Quaterions
+	local quaternion = rotation:Quaternion()
+	local quaternion_attached = actor_rotation:Quaternion()
+
+	-- Gets the Relative rotation
+	local inverse = quaternion_attached:Inverse()
+	local relative_rotation = (inverse * quaternion):Rotator()
+
+	return relative_location, relative_rotation
 end
