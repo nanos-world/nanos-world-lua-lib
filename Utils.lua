@@ -15,3 +15,8 @@ table.insert(package.searchers, function(module_name)
 		return function() return result end
 	end
 end)
+
+-- Compacts the IsValid function
+function IsValid( entity )
+	return entity and type( entity.IsValid ) == "function" and entity:IsValid()
+end
