@@ -119,3 +119,8 @@ function NanosUtils.FormatString(str, ...)
 
 	return str
 end
+
+-- Compacts IsValid function
+function NanosUtils.IsEntityValid(entity)
+	return entity and entity:IsValid()
+end

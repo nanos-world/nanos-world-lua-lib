@@ -4,7 +4,7 @@ AimMode = {	None = 0, ADS = 1, ZoomedZoom = 2, Zoomed = 3, ZoomedFar = 4 }
 AnimationSlotType = { FullBody = 0, UpperBody = 1 }
 AttachmentRule = { KeepRelative = 0, KeepWorld = 1, SnapToTarget = 2 }
 AttenuationFunction = { Linear = 0, Logarithmic = 1, Inverse = 2, LogReverse = 3, NaturalSound = 4 }
-BlendMode = { Opaque = 0, Masked = 1, Translucent = 2, Additive = 3, Modulate = 4, AlphaComposite = 5, AlphaHoldout = 6 }
+BlendMode = { Opaque = 0, Masked = 1, Translucent = 2, Additive = 3, Modulate = 4, MaskedDistanceField = 5, MaskedDistanceFieldShadowed = 6, TranslucentDistanceField = 7, TranslucentDistanceFieldShadowed = 8, AlphaComposite = 9, AlphaHoldout = 10, AlphaBlend = 11, TranslucentAlphaOnly = 12, TranslucentAlphaOnlyWriteAlpha = 13 }
 CameraMode = { FPSTPS = 0, FPSOnly = 1, TPSOnly = 2 }
 CollisionChannel = { WorldStatic = 1 << 0, WorldDynamic = 1 << 1, Pawn = 1 << 2, PhysicsBody = 1 << 5, Vehicle = 1 << 22, TracePrimitive = 1 << 16, Mesh = 1 << 17, Foliage = 1 << 20 }
 CollisionType = { Normal = 0, StaticOnly = 1, NoCollision = 2, IgnoreOnlyPawn = 3, Auto = 4 }
