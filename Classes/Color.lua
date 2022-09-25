@@ -78,7 +78,7 @@ function Color:__tostring()
 end
 
 function Color:ToHex()
-	return string.format("#%.2X%.2X%.2X%.2X", self.R * 255, self.G * 255, self.B * 255, self.A * 255)
+	return string.format("#%.2X%.2X%.2X%.2X", math.ceil(self.R * 255), math.ceil(self.G * 255), math.ceil(self.B * 255), math.ceil(self.A * 255))
 end
 
 Color.WHITE =		Color(1,   1,   1)
