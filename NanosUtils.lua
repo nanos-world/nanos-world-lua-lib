@@ -2,10 +2,6 @@
 
 NanosUtils = {}
 
-function NanosUtils.IsA(object, class)
-	return getmetatable(object) == class
-end
-
 
 function NanosUtils.Dump(full_object)
 	-- Table used to store already visited tables (avoid recursion)
@@ -106,7 +102,7 @@ function NanosUtils.Benchmark(name, amount, func, ...)
 	-- Calculates the elapsed time in ms
 	local elapsed_ms = (os.clock() - start_time) * 1000
 
-	Package.Log("Benchmark '%s' (x%d) took %.0fms.", name, amount, elapsed_ms)
+	Console.Log("Benchmark '%s' (x%d) took %.0fms.", name, amount, elapsed_ms)
 end
 
 
