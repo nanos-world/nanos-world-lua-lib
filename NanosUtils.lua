@@ -3,6 +3,14 @@
 NanosUtils = {}
 
 
+function NanosUtils.IsEntityValid(entity)
+	return entity and entity:IsValid()
+end
+
+function NanosUtils.ShallowCopyTable(table)
+	return __copy_table_shallow(table)
+end
+
 function NanosUtils.Dump(full_object)
 	-- Table used to store already visited tables (avoid recursion)
 	local visited = {}
@@ -21,7 +29,7 @@ function NanosUtils.Dump(full_object)
 		if (object_type == 'table' and not visited[object]) then
 			local object_metatable = getmetatable(object)
 
-			-- If it's a nanos world struct, just stringify it
+			-- If it's a framework struct, just stringify it
 			if (object_metatable == Vector or object_metatable == Rotator or object_metatable == Vector2D or object_metatable == Color) then
 				-- Anything else just stringify it
 				table_insert(buffer, tostring(object))
@@ -39,7 +47,7 @@ function NanosUtils.Dump(full_object)
 			end
 
 			table.sort(keys, function(a, b)
-				if type(a) == "number" and type(b) == "number" then
+				if (type(a) == "number" and type(b) == "number") then
 					return a < b
 				else
 					return tostring(a) < tostring(b)
@@ -87,7 +95,6 @@ function NanosUtils.Dump(full_object)
 	return table.concat(buffer)
 end
 
-
 function NanosUtils.Benchmark(name, amount, func, ...)
 	collectgarbage()
 
@@ -105,7 +112,6 @@ function NanosUtils.Benchmark(name, amount, func, ...)
 	Console.Log("Benchmark '%s' (x%d) took %.0fms.", name, amount, elapsed_ms)
 end
 
-
 function NanosUtils.FormatString(str, ...)
 	str = str or ""
 
@@ -114,9 +120,4 @@ function NanosUtils.FormatString(str, ...)
 	end
 
 	return str
-end
-
--- Compacts IsValid function
-function NanosUtils.IsEntityValid(entity)
-	return entity and entity:IsValid()
 end

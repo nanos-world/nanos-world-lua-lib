@@ -86,8 +86,8 @@ end
 
 function Vector:Equals(other, tolerance)
 	if (not tolerance) then tolerance = 0.000001 end
-	return math.abs(NanosMath.NormalizeAxis(self.X - other.X)) <= tolerance 
-			and math.abs(NanosMath.NormalizeAxis(self.Y - other.Y)) <= tolerance 
+	return math.abs(NanosMath.NormalizeAxis(self.X - other.X)) <= tolerance
+			and math.abs(NanosMath.NormalizeAxis(self.Y - other.Y)) <= tolerance
 			and math.abs(NanosMath.NormalizeAxis(self.Z - other.Z)) <= tolerance
 end
 
@@ -147,7 +147,7 @@ function Vector:GetSafeNormal(tolerance)
 	if (square_sum == 1) then
 		return self
 	elseif (square_sum < tolerance) then
-		return Vector(0, 0, 0)
+		return Vector()
 	end
 
 	local scale = 1 / math.sqrt(square_sum)

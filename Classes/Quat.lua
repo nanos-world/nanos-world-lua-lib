@@ -50,6 +50,48 @@ function Quat:__mul(other)
 	)
 end
 
+function Quat:__sub(other)
+	return Quat(
+		self.X - other.X,
+		self.Y - other.Y,
+		self.Z - other.Z,
+		self.W - other.W
+	)
+end
+
+function Quat:__add(other)
+	return Quat(
+		self.X + other.X,
+		self.Y + other.Y,
+		self.Z + other.Z,
+		self.W + other.W
+	)
+end
+
+function Quat:Normalize(tolerance)
+	if not tolerance then tolerance = 0.000001 end
+
+	local square_sum = self.X * self.X + self.Y * self.Y + self.Z * self.Z + self.W * self.W
+
+	if (square_sum >= tolerance) then
+		local scale = 1 / math.sqrt(square_sum)
+
+		self.X = self.X * scale;
+		self.Y = self.Y * scale;
+		self.Z = self.Z * scale;
+		self.W = self.W * scale;
+	else
+		self.X = 0
+		self.Y = 0
+		self.Z = 0
+		self.W = 1
+	end
+end
+
+function Quat:Inverse()
+	return Quat(-self.X, -self.Y, -self.Z, self.W)
+end
+
 function Quat:Rotator()
 	local singularity_test = self.Z * self.X - self.W * self.Y
 	local yaw_y = 2 * (self.W * self.Z + self.X * self.Y)
