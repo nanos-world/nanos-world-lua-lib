@@ -95,6 +95,10 @@ function NanosUtils.Dump(full_object)
 	return table.concat(buffer)
 end
 
+function PrintTable(tab)
+   print(NanosUtils.Dump(tab))	
+end
+
 function NanosUtils.Benchmark(name, amount, func, ...)
 	collectgarbage()
 
