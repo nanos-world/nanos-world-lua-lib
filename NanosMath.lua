@@ -1,16 +1,5 @@
 --[[ Nanos Math Library --]]
 
-NanosMathLibrary = {
-	DeprecationNotice = function() __Warning("NanosMathLibrary has been replaced with NanosMath! Please update your code!")	end,
-	ClampAxis = function(...) NanosMathLibrary.DeprecationNotice() return NanosMath.ClampAxis(...) end,
-	NormalizeAxis = function(...) NanosMathLibrary.DeprecationNotice() return NanosMath.NormalizeAxis(...) end,
-	FInterpTo = function(...) NanosMathLibrary.DeprecationNotice() return NanosMath.FInterpTo(...) end,
-	RInterpTo = function(...) NanosMathLibrary.DeprecationNotice() return NanosMath.RInterpTo(...) end,
-	VInterpTo = function(...) NanosMathLibrary.DeprecationNotice() return NanosMath.VInterpTo(...) end,
-	VInterpConstantTo = function(...) NanosMathLibrary.DeprecationNotice() return NanosMath.VInterpConstantTo(...) end,
-	RInterpConstantTo = function(...) NanosMathLibrary.DeprecationNotice() return NanosMath.RInterpConstantTo(...) end,
-}
-
 NanosMath = {}
 
 function NanosMath.Round(value, decimals)

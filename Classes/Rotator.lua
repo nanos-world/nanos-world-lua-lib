@@ -1,5 +1,3 @@
---[[ Rotator --]]
-
 Rotator = {}
 Rotator.__index = Rotator
 
@@ -64,8 +62,8 @@ end
 
 function Rotator:Equals(other, tolerance)
 	if not tolerance then tolerance = 0.000001 end
-	return math.abs(NanosMath.NormalizeAxis(self.Pitch - other.Pitch)) <= tolerance 
-			and math.abs(NanosMath.NormalizeAxis(self.Yaw - other.Yaw)) <= tolerance 
+	return math.abs(NanosMath.NormalizeAxis(self.Pitch - other.Pitch)) <= tolerance
+			and math.abs(NanosMath.NormalizeAxis(self.Yaw - other.Yaw)) <= tolerance
 			and math.abs(NanosMath.NormalizeAxis(self.Roll - other.Roll)) <= tolerance
 end
 
@@ -144,10 +142,10 @@ function Rotator:Quaternion()
 	local CR = math.cos(roll_mult_rads)
 
 	return Quat(
-		 CR * SP * SY - SR * CP * CY,
-		-CR * SP * CY - SR * CP * SY,
-		 CR * CP * SY - SR * SP * CY,
-		 CR * CP * CY + SR * SP * SY
+			CR * SP * SY - SR * CP * CY,
+			-CR * SP * CY - SR * CP * SY,
+			CR * CP * SY - SR * SP * CY,
+			CR * CP * CY + SR * SP * SY
 	)
 end
 

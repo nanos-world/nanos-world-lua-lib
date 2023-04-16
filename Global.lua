@@ -1,17 +1,24 @@
--- Overrides print to call Package Log instead
+-- Overrides print to call Console Log instead
 print = function(...)
-	local toprint = ""
+	-- Table used to store the final output, which will be concatted in the end
+	local buffer = {}
+
+	-- Cache table.insert as local because it's faster
+	local table_insert = table.insert
+
 	for i = 1, select("#", ...) do
-		toprint = toprint .. tostring(select(i, ...)) .. "\t"
+		table_insert(buffer, tostring(select(i, ...)))
+		table_insert(buffer, "\t")
 	end
 
-	return Package.Log(toprint)
+	-- After all, concats the results
+	return Console.Log(table.concat(buffer))
 end
 
 -- Adds 'require' to searchers
 table.insert(package.searchers, function(module_name)
 	local success, result = pcall(Package.Require, Package, module_name)
-	if success then
+	if (success) then
 		return function() return result end
 	end
 end)

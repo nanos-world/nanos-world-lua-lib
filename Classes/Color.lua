@@ -77,8 +77,12 @@ function Color:__tostring()
 	return "Color(R = " .. self.R .. ", G = " .. self.G .. ", B = " .. self.B .. ", A = " .. self.A .. ")"
 end
 
-function Color:ToHex()
-	return string.format("#%.2X%.2X%.2X%.2X", math.ceil(self.R * 255), math.ceil(self.G * 255), math.ceil(self.B * 255), math.ceil(self.A * 255))
+function Color:ToHex(appends_transparency)
+	if (appends_transparency == false) then
+		return string.format("#%.2X%.2X%.2X", math.ceil(self.R * 255), math.ceil(self.G * 255), math.ceil(self.B * 255))
+	else
+		return string.format("#%.2X%.2X%.2X%.2X", math.ceil(self.R * 255), math.ceil(self.G * 255), math.ceil(self.B * 255), math.ceil(self.A * 255))
+	end
 end
 
 Color.WHITE =		Color(1,   1,   1)
@@ -101,8 +105,8 @@ Color.VIOLET =		Color(0.5, 0,   1)
 Color.ROSE =		Color(1,   0,   0.5)
 
 Color.PALETTE = {
-	Color.WHITE,
 	Color.BLACK,
+	Color.WHITE,
 	Color.RED,
 	Color.GREEN,
 	Color.BLUE,
@@ -117,8 +121,11 @@ Color.PALETTE = {
 	Color.ROSE,
 }
 
-function Color.RandomPalette()
-	return Color.PALETTE[math.random(#Color.PALETTE)]
+function Color.RandomPalette(includes_black)
+	local skips = 0
+	if (includes_black == false) then skips = 1 end
+
+	return Color.PALETTE[math.random(#Color.PALETTE - skips) + skips]
 end
 
 function Color.Random()
