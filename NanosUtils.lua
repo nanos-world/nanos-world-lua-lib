@@ -121,3 +121,46 @@ function NanosUtils.FormatString(str, ...)
 
 	return str
 end
+
+
+-- converts any value to a boolean
+function NanosUtils.ToBool(val)
+    if not val or (val == "false") or (val == 0) or (val== "0") then
+        return false
+    end
+
+    return true
+end
+
+
+-- add Get/Set functions to a provided table
+local function valueToType(val, type)
+    if not type then return val end
+
+    if (type == "number") then return tonumber(val) end
+    if (type == "string") then return tostring(val) end
+    if (type == "boolean") then return NanosUtils.ToBool(val) end
+
+    return val
+end
+
+function NanosUtils.AddAccessors(table, name, key, type, default_fallback)
+    if not table or (type(table) ~= "table") or not name or not key then
+        return
+    end
+
+    name, key = tostring(name), tostring(key)
+
+    if table["Set" .. name] or table["Get" .. name] then
+        return
+    end
+
+    table["Set" .. name] = function(self, val)
+        self[key] = valueToType(val, type)
+        return self
+    end
+
+    table["Get" .. name] = function(self)
+        return (self[key] ~= nil) and self[key] or default_fallback
+    end
+end
