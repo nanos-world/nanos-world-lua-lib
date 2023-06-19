@@ -23,3 +23,7 @@ function NanosUtils.Benchmark(name, amount, func, ...)
 
 	Console.Log("Benchmark '%s' (x%d) took %.0fms.", name, amount, elapsed_ms)
 end
+
+function NanosUtils.IsA(object, class)
+	return ((type(object) == "table") and object.IsA and object:IsA(class))
+end
