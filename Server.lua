@@ -1,7 +1,8 @@
 -- Adds 'require' to searchers
 table.insert(package.searchers, function(module_name)
-	local success, result = pcall(Package.Require, Package, module_name)
-	if (success) then
-		return function() return result end
-	end
+    local calling_ENV = __GetCalling_ENV(4)
+    if calling_ENV then
+        local result = calling_ENV.Package.Require(module_name)
+        return function() return result end
+    end
 end)

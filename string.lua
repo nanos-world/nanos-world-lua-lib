@@ -21,3 +21,10 @@ function string.FormatArgs(str, ...)
 
 	return str
 end
+
+function string.split(str, sep) -- basic string.split handling 1 character for sep.
+    local sep, fields = sep or ":", {}
+    local pattern = string.format("([^%s]+)", sep)
+    str:gsub(pattern, function(c) fields[#fields+1] = c end)
+    return fields
+end
