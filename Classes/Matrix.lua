@@ -65,16 +65,10 @@ function Matrix.new(rotation, origin)
 end
 
 function Matrix:TransformVector(vector)
-	local vector4 = self:TransformVector4(Vector4(vector.X, vector.Y, vector.Z, 0))
-	return Vector(vector4.X, vector4.Y, vector4.Z)
-end
-
-function Matrix:TransformVector4(vector)
-	return Vector4(
-		self.M[1][1] * vector.X + self.M[1][2] * vector.Y + self.M[1][3] * vector.Z + self.M[1][4] * vector.W,
-		self.M[2][1] * vector.X + self.M[2][2] * vector.Y + self.M[2][3] * vector.Z + self.M[2][4] * vector.W,
-		self.M[3][1] * vector.X + self.M[3][2] * vector.Y + self.M[3][3] * vector.Z + self.M[3][4] * vector.W,
-		self.M[4][1] * vector.X + self.M[4][2] * vector.Y + self.M[4][3] * vector.Z + self.M[4][4] * vector.W
+	return Vector(
+		self.M[1][1] * vector.X + self.M[1][2] * vector.Y + self.M[1][3] * vector.Z,
+		self.M[2][1] * vector.X + self.M[2][2] * vector.Y + self.M[2][3] * vector.Z,
+		self.M[3][1] * vector.X + self.M[3][2] * vector.Y + self.M[3][3] * vector.Z
 	)
 end
 

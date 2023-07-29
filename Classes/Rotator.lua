@@ -1,5 +1,3 @@
---[[ Rotator --]]
-
 Rotator = {}
 Rotator.__index = Rotator
 
@@ -19,17 +17,42 @@ function Rotator.new(_pitch, _yaw, _roll)
 end
 
 function Rotator:__add(other)
-	if type(other) ~= "table" then other = Rotator(other) end
+	-- Rotator + number
+	if (type(other) == "number") then
+		return Rotator(self.Pitch + other, self.Yaw + other, self.Roll + other)
+	end
+
+	-- number + Rotator
+	if (type(self) == "number") then
+		return Rotator(self + other.Pitch, self + other.Yaw, self + other.Roll)
+	end
+
+	-- Assume Rotator + Rotator
 	return Rotator(self.Pitch + other.Pitch, self.Yaw + other.Yaw, self.Roll + other.Roll)
 end
 
 function Rotator:__sub(other)
-	if type(other) ~= "table" then other = Rotator(other) end
+	-- Rotator - number
+	if (type(other) == "number") then
+		return Rotator(self.Pitch - other, self.Yaw - other, self.Roll - other)
+	end
+
+	-- Assume Rotator - Rotator
 	return Rotator(self.Pitch - other.Pitch, self.Yaw - other.Yaw, self.Roll - other.Roll)
 end
 
 function Rotator:__mul(other)
-	if type(other) ~= "table" then other = Rotator(other) end
+	-- Rotator * number
+	if (type(other) == "number") then
+		return Rotator(self.Pitch * other, self.Yaw * other, self.Roll * other)
+	end
+
+	-- number * Rotator
+	if (type(self) == "number") then
+		return Rotator(self * other.Pitch, self * other.Yaw, self * other.Roll)
+	end
+
+	-- Assume Rotator * Rotator
 	return Rotator(self.Pitch * other.Pitch, self.Yaw * other.Yaw, self.Roll * other.Roll)
 end
 
@@ -39,8 +62,8 @@ end
 
 function Rotator:Equals(other, tolerance)
 	if not tolerance then tolerance = 0.000001 end
-	return math.abs(NanosMath.NormalizeAxis(self.Pitch - other.Pitch)) <= tolerance 
-			and math.abs(NanosMath.NormalizeAxis(self.Yaw - other.Yaw)) <= tolerance 
+	return math.abs(NanosMath.NormalizeAxis(self.Pitch - other.Pitch)) <= tolerance
+			and math.abs(NanosMath.NormalizeAxis(self.Yaw - other.Yaw)) <= tolerance
 			and math.abs(NanosMath.NormalizeAxis(self.Roll - other.Roll)) <= tolerance
 end
 
@@ -71,13 +94,26 @@ function Rotator:GetForwardVector()
 	local pitch_no_winding = self.Pitch % 360
 	local yaw_no_winding = self.Yaw % 360
 
-	local SP = math.sin(math.rad(pitch_no_winding))
-	local CP = math.cos(math.rad(pitch_no_winding))
+	local RP = math.rad(pitch_no_winding)
+	local RY = math.rad(yaw_no_winding)
 
-	local SY = math.sin(math.rad(yaw_no_winding))
-	local CY = math.cos(math.rad(yaw_no_winding))
+	local SP = math.sin(RP)
+	local CP = math.cos(RP)
+
+	local SY = math.sin(RY)
+	local CY = math.cos(RY)
 
 	return Vector(CP * CY, CP * SY, SP)
+end
+
+function Rotator:GetRightVector()
+	local m = Matrix(self)
+	return Vector(m.M[2][1], m.M[2][2], m.M[2][3])
+end
+
+function Rotator:GetUpVector()
+	local m = Matrix(self)
+	return Vector(m.M[3][1], m.M[3][2], m.M[3][3]);
 end
 
 function Rotator:Normalize()
@@ -94,18 +130,22 @@ function Rotator:Quaternion()
 	local yaw_no_winding = self.Yaw % 360
 	local roll_no_winding = self.Roll % 360
 
-	local SP = math.sin(pitch_no_winding * rads_divided_by_2)
-	local CP = math.cos(pitch_no_winding * rads_divided_by_2)
-	local SY = math.sin(yaw_no_winding * rads_divided_by_2)
-	local CY = math.cos(yaw_no_winding * rads_divided_by_2)
-	local SR = math.sin(roll_no_winding * rads_divided_by_2)
-	local CR = math.cos(roll_no_winding * rads_divided_by_2)
+	local pitch_mult_rads = pitch_no_winding * rads_divided_by_2
+	local yaw_mult_rads = yaw_no_winding * rads_divided_by_2
+	local roll_mult_rads = roll_no_winding * rads_divided_by_2
+
+	local SP = math.sin(pitch_mult_rads)
+	local CP = math.cos(pitch_mult_rads)
+	local SY = math.sin(yaw_mult_rads)
+	local CY = math.cos(yaw_mult_rads)
+	local SR = math.sin(roll_mult_rads)
+	local CR = math.cos(roll_mult_rads)
 
 	return Quat(
-		 CR * SP * SY - SR * CP * CY,
-		-CR * SP * CY - SR * CP * SY,
-		 CR * CP * SY - SR * SP * CY,
-		 CR * CP * CY + SR * SP * SY
+			CR * SP * SY - SR * CP * CY,
+			-CR * SP * CY - SR * CP * SY,
+			CR * CP * SY - SR * SP * CY,
+			CR * CP * CY + SR * SP * SY
 	)
 end
 
