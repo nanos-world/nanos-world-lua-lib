@@ -14,7 +14,7 @@ function NanosUtils.Benchmark(name, amount, func, ...)
 	local start_time = os.clock()
 
 	-- Do the operation 'amount' times
-	for i = 0, amount do
+	for _ = 1, amount do
 		func(...)
 	end
 
