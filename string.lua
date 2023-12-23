@@ -21,3 +21,13 @@ function string.FormatArgs(str, ...)
 
 	return str
 end
+
+function string.ToTable(str)
+    local tbl = {}
+
+    for i = 1, #str do
+        tbl[i] = str:sub(i, i)
+    end
+
+    return tbl
+end
