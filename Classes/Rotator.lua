@@ -149,10 +149,13 @@ function Rotator:Quaternion()
 	)
 end
 
-function Rotator.Random(roll)
+function Rotator.Random(roll, min, max)
+	min = (type(min) == "number") and min or -180
+	max = (type(max) == "number") and max or 180
+
 	return Rotator(
-		math.random() * 360,
-		math.random() * 360,
-		roll and math.random() * 360 or 0
+		min + math.random() * (max - min),
+		min + math.random() * (max - min),
+		roll and min + math.random() * (max - min) or 0
 	)
 end
