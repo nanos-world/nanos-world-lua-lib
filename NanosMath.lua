@@ -118,6 +118,21 @@ function NanosMath.RelativeTo(location, rotation, actor)
 	return relative_location, relative_rotation
 end
 
+function NanosMath.WorldFromRelative(relative_location, relative_rotation, actor)
+	local actor_location = actor:GetLocation()
+	local actor_rotation = actor:GetRotation()
+	local actor_scale = actor:GetScale()
+
+	local forward = actor_rotation:GetForwardVector() * actor_scale
+	local right = actor_rotation:GetRightVector() * actor_scale
+	local up = actor_rotation:GetUpVector() * actor_scale
+
+	local world_location = actor_location + (forward * relative_location.X) + (right * relative_location.Y) + (up * relative_location.Z)
+	local world_rotation = actor_rotation + relative_rotation
+
+	return world_location, world_rotation
+end
+
 function NanosMath.RandomFloat(min, max)
 	return min + math.random() * (max - min)
 end
