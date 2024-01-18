@@ -117,3 +117,7 @@ function NanosMath.RelativeTo(location, rotation, actor)
 
 	return relative_location, relative_rotation
 end
+
+function NanosMath.RandomFloat(min, max)
+	return min + math.random() * (max - min)
+end
