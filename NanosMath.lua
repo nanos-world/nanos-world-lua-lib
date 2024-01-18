@@ -118,7 +118,7 @@ function NanosMath.RelativeTo(location, rotation, actor)
 	return relative_location, relative_rotation
 end
 
-function NanosMath.WorldFromRelative(relative_location, relative_rotation, actor)
+function NanosMath.LocalToWorld(local_location, local_rotation, actor)
 	local actor_location = actor:GetLocation()
 	local actor_rotation = actor:GetRotation()
 	local actor_scale = actor:GetScale()
@@ -127,8 +127,8 @@ function NanosMath.WorldFromRelative(relative_location, relative_rotation, actor
 	local right = actor_rotation:GetRightVector() * actor_scale
 	local up = actor_rotation:GetUpVector() * actor_scale
 
-	local world_location = actor_location + (forward * relative_location.X) + (right * relative_location.Y) + (up * relative_location.Z)
-	local world_rotation = actor_rotation + relative_rotation
+	local world_location = actor_location + (forward * local_location.X) + (right * local_location.Y) + (up * local_location.Z)
+	local world_rotation = actor_rotation + local_rotation
 
 	return world_location, world_rotation
 end
