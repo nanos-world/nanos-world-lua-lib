@@ -168,8 +168,8 @@ end
 
 function Vector:Cross(other)
 	return Vector(
-		self.y * other.z - self.z * other.y,
-        	self.z * other.x - self.x * other.z,
-        	self.x * other.y - self.y * other.x
+		self.Y * other.Z - self.Z * other.Y,
+        	self.Z * other.X - self.X * other.Z,
+        	self.X * other.Y - self.Y * other.X
 	)
 end
