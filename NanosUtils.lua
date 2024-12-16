@@ -23,3 +23,17 @@ function NanosUtils.Benchmark(name, amount, func, ...)
 
 	Console.Log("Benchmark '%s' (x%d) took %.0fms.", name, amount, elapsed_ms)
 end
+
+function NanosUtils.PrintTable(tTbl, iIndent)
+    iIndent = iIndent or 0
+    local sIndentString = string.rep("  ", iIndent)
+
+    for xKey, xValue in pairs(tTbl) do
+        if type(xValue) == "table" then
+            print(sIndentString .. tostring(xKey) .. ":")
+            PrintTable(xValue, iIndent + 1)
+        else
+            print(sIndentString .. tostring(xKey) .. ": " .. tostring(xValue))
+        end
+    end
+end
