@@ -161,3 +161,15 @@ function Vector:Rotation()
 		0
 	)
 end
+
+function Vector:Dot(other)
+	return self.X * other.X + self.Y * other.Y + self.Z * other.Z
+end
+
+function Vector:Cross(other)
+	return Vector(
+		self.Y * other.Z - self.Z * other.Y,
+        	self.Z * other.X - self.X * other.Z,
+        	self.X * other.Y - self.Y * other.X
+	)
+end
