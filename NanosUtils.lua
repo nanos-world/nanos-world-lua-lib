@@ -4,7 +4,14 @@ NanosUtils = {}
 
 
 function NanosUtils.IsEntityValid(entity)
-	return entity and entity:IsValid()
+	if (not entity) then return false end
+
+	local val_type = type(entity)
+	if ((val_type == "userdata") or ((val_type == "table") and (type(entity.__entity) == "userdata"))) then
+		return entity:IsValid()
+	end
+
+	return false
 end
 
 function NanosUtils.Benchmark(name, amount, func, ...)
