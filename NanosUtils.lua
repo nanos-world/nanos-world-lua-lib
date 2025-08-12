@@ -29,4 +29,6 @@ function NanosUtils.Benchmark(name, amount, func, ...)
 	local elapsed_ms = (os.clock() - start_time) * 1000
 
 	Console.Log("Benchmark '%s' (x%d) took %.0fms.", name, amount, elapsed_ms)
+
+	return elapsed_ms
 end
