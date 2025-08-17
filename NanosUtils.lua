@@ -8,7 +8,7 @@ function NanosUtils.IsEntityValid(entity)
 
 	local val_type = type(entity)
 	if ((val_type == "userdata") or ((val_type == "table") and (type(entity.__entity) == "userdata"))) then
-		return entity:IsValid()
+		return (entity.IsValid and entity:IsValid())
 	end
 
 	return false
