@@ -21,7 +21,7 @@ function NanosTable.Dump(original_table)
 		local object_type = type(object)
 
 		-- If it's a table and was not outputted yet
-		if (object_type == 'table' and not visited[object]) then
+		if (object_type == 'table' and type(object.__entity) ~= "userdata" and not visited[object]) then
 			local object_metatable = getmetatable(object)
 
 			-- If it's a framework struct, just stringify it
