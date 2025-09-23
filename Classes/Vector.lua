@@ -68,6 +68,10 @@ function Vector:__div(other)
 	return Vector(self.X / other.X, self.Y / other.Y, self.Z / other.Z)
 end
 
+function Vector:__len()
+    return math.sqrt(self.X^2 + self.Y^2 + self.Z^2)
+end
+
 function Vector:__pow(other)
 	return Vector(self.Y * other.Z - self.Z * other.Y, self.Z * other.X - self.X * other.Z, self.X * other.Y - self.Y * other.X)
 end
