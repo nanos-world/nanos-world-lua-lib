@@ -67,6 +67,10 @@ function Vector2D:__div(other)
 	return Vector2D(self.X / other.X, self.Y / other.Y)
 end
 
+function Vector2D:__len()
+    return math.sqrt(self.X^2 + self.Y^2)
+end
+
 function Vector2D:__unm()
 	return Vector2D(-self.X, -self.Y)
 end
