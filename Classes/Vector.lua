@@ -108,6 +108,10 @@ function Vector:IsZero()
 	return self.X == 0 and self.Y == 0 and self.Z == 0
 end
 
+function Vector:IsNear(other, radius)
+	return self:DistanceSquared(other) < radius * radius
+end
+
 function Vector:DistanceSquared(other)
 	return ((other.X - self.X) ^ 2) + ((other.Y - self.Y) ^ 2) + ((other.Z - self.Z) ^ 2)
 end
