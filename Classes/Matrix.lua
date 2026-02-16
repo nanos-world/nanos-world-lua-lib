@@ -66,9 +66,9 @@ end
 
 function Matrix:TransformVector(vector)
 	return Vector(
-		self.M[1][1] * vector.X + self.M[1][2] * vector.Y + self.M[1][3] * vector.Z,
-		self.M[2][1] * vector.X + self.M[2][2] * vector.Y + self.M[2][3] * vector.Z,
-		self.M[3][1] * vector.X + self.M[3][2] * vector.Y + self.M[3][3] * vector.Z
+		self.M[1][1] * vector.X + self.M[2][1] * vector.Y + self.M[3][1] * vector.Z,
+		self.M[1][2] * vector.X + self.M[2][2] * vector.Y + self.M[3][2] * vector.Z,
+		self.M[1][3] * vector.X + self.M[2][3] * vector.Y + self.M[3][3] * vector.Z
 	)
 end
 

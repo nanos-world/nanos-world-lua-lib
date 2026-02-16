@@ -81,14 +81,16 @@ function Vector:__eq(other)
 end
 
 function Vector:__tostring()
-	return "Vector(X = " .. self.X .. ", Y = " .. self.Y .. ", Z = " .. self.Z .. ")"
+	return string.format("Vector(X = %.2f, Y = %.2f, Z = %.2f)", self.X, self.Y, self.Z)
 end
 
 function Vector:Equals(other, tolerance)
 	if (not tolerance) then tolerance = 0.000001 end
-	return math.abs(NanosMath.NormalizeAxis(self.X - other.X)) <= tolerance
-			and math.abs(NanosMath.NormalizeAxis(self.Y - other.Y)) <= tolerance
-			and math.abs(NanosMath.NormalizeAxis(self.Z - other.Z)) <= tolerance
+
+	return
+		math.abs(self.X - other.X) <= tolerance and
+		math.abs(self.Y - other.Y) <= tolerance and
+		math.abs(self.Z - other.Z) <= tolerance
 end
 
 function Vector:SizeSquared()
@@ -101,7 +103,11 @@ end
 
 function Vector:IsNearlyZero(tolerance)
 	if (not tolerance) then tolerance = 0.000001 end
-	return math.abs(self.X) <= tolerance and math.abs(self.Y) <= tolerance and math.abs(self.Z) <= tolerance
+
+	return
+		math.abs(self.X) <= tolerance and
+		math.abs(self.Y) <= tolerance and
+		math.abs(self.Z) <= tolerance
 end
 
 function Vector:IsZero()
@@ -149,7 +155,7 @@ function Vector:GetSafeNormal(tolerance)
 	local square_sum = self:SizeSquared()
 
 	if (square_sum == 1) then
-		return self
+		return Vector(self.X, self.Y, self.Z)
 	elseif (square_sum < tolerance) then
 		return Vector()
 	end
@@ -158,11 +164,28 @@ function Vector:GetSafeNormal(tolerance)
 	return self * scale
 end
 
-function Vector:Rotation()
+function Vector:ToOrientationRotator()
 	return Rotator(
-		math.atan(self.Z, math.sqrt(self.X * self.X + self.Y * self.Y)) * (180 / math.pi),
-		math.atan(self.Y, self.X) * (180 / math.pi),
-		0
+		math.atan(self.Z, math.sqrt(self.X * self.X + self.Y * self.Y)) * (180.0 / math.pi),
+		math.atan(self.Y, self.X) * (180.0 / math.pi),
+		0.0
+	)
+end
+
+function Vector:ToOrientationQuat()
+	local yaw_rad = math.atan(self.Y, self.X)
+	local pitch_rad = math.atan(self.Z, math.sqrt(self.X * self.X + self.Y * self.Y))
+
+	local SP = math.sin(pitch_rad * 0.5)
+	local CP = math.cos(pitch_rad * 0.5)
+	local SY = math.sin(yaw_rad * 0.5)
+	local CY = math.cos(yaw_rad * 0.5)
+
+	return Quat(
+		SP * SY,
+		-SP * CY,
+		CP * SY,
+		CP * CY
 	)
 end
 
@@ -173,7 +196,7 @@ end
 function Vector:Cross(other)
 	return Vector(
 		self.Y * other.Z - self.Z * other.Y,
-        	self.Z * other.X - self.X * other.Z,
-        	self.X * other.Y - self.Y * other.X
+		self.Z * other.X - self.X * other.Z,
+		self.X * other.Y - self.Y * other.X
 	)
 end

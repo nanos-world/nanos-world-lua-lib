@@ -74,7 +74,7 @@ function Color:__eq(other)
 end
 
 function Color:__tostring()
-	return "Color(R = " .. self.R .. ", G = " .. self.G .. ", B = " .. self.B .. ", A = " .. self.A .. ")"
+	return string.format("Color(R = %.3f, G = %.3f, B = %.3f, A = %.3f)", self.R, self.G, self.B, self.A)
 end
 
 function Color:ToHex(appends_transparency)

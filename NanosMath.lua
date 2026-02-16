@@ -104,16 +104,12 @@ end
 
 function NanosMath.RelativeTo(location, rotation, actor)
 	local actor_location = actor:GetLocation()
-	local actor_rotation = actor:GetRotation()
-	local relative_location = actor_rotation:RotateVector(location - actor_location) / actor:GetScale()
-
-	-- Converts the Rotations to Quaternions
-	local quaternion = rotation:Quaternion()
-	local quaternion_attached = actor_rotation:Quaternion()
+	local actor_quaternion = actor:GetRotation():Quaternion()
+	local relative_location = actor_quaternion:UnrotateVector(location - actor_location) / actor:GetScale()
 
 	-- Gets the Relative rotation
-	local inverse = quaternion_attached:Inverse()
-	local relative_rotation = (inverse * quaternion):Rotator()
+	local inverse = actor_quaternion:Inverse()
+	local relative_rotation = (inverse * rotation:Quaternion()):Rotator()
 
 	return relative_location, relative_rotation
 end

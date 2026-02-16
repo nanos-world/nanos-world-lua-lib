@@ -92,6 +92,60 @@ function Quat:Inverse()
 	return Quat(-self.X, -self.Y, -self.Z, self.W)
 end
 
+function Quat:RotateVector(vector)
+	local QX, QY, QZ, QW = self.X, self.Y, self.Z, self.W
+	local VX, VY, VZ = vector.X, vector.Y, vector.Z
+
+	local T1 = 2 * (QY * VZ - QZ * VY)
+	local T2 = 2 * (QZ * VX - QX * VZ)
+	local T3 = 2 * (QX * VY - QY * VX)
+
+	local RX = VX + QW * T1 + (QY * T3 - QZ * T2)
+	local RY = VY + QW * T2 + (QZ * T1 - QX * T3)
+	local RZ = VZ + QW * T3 + (QX * T2 - QY * T1)
+
+	return Vector(RX, RY, RZ)
+
+	-- Equivalent to
+	-- local q = Vector(self.X, self.Y, self.Z)
+	-- local tt = 2.0 * q:Cross(vector)
+	-- local result = vector + (self.W * tt) + q:Cross(tt)
+	-- return result
+end
+
+function Quat:UnrotateVector(vector)
+	local QX, QY, QZ, QW = -self.X, -self.Y, -self.Z, self.W
+	local VX, VY, VZ = vector.X, vector.Y, vector.Z
+
+	local T1 = 2 * (QY * VZ - QZ * VY)
+	local T2 = 2 * (QZ * VX - QX * VZ)
+	local T3 = 2 * (QX * VY - QY * VX)
+
+	local RX = VX + QW * T1 + (QY * T3 - QZ * T2)
+	local RY = VY + QW * T2 + (QZ * T1 - QX * T3)
+	local RZ = VZ + QW * T3 + (QX * T2 - QY * T1)
+
+	return Vector(RX, RY, RZ)
+
+	-- Equivalent to
+	-- local q = Vector(-self.X, -self.Y, -self.Z)
+	-- local tt = 2.0 * q:Cross(vector)
+	-- local result = vector + (self.W * tt) + q:Cross(tt)
+	-- return result
+end
+
+function Quat:GetForwardVector()
+	return self:RotateVector({ X = 1, Y = 0, Z = 0})
+end
+
+function Quat:GetRightVector()
+	return self:RotateVector({ X = 0, Y = 1, Z = 0})
+end
+
+function Quat:GetUpVector()
+	return self:RotateVector({ X = 0, Y = 0, Z = 1})
+end
+
 function Quat:Rotator()
 	local singularity_test = self.Z * self.X - self.W * self.Y
 	local yaw_y = 2 * (self.W * self.Z + self.X * self.Y)
@@ -120,5 +174,5 @@ function Quat:Rotator()
 end
 
 function Quat:__tostring()
-	return "Quat(X = " .. self.X .. ", Y = " .. self.Y .. ", Z = " .. self.Z .. ", W = " .. self.W .. ")"
+	return string.format("Quat(X = %.4f, Y = %.4f, Z = %.4f, W = %.4f)", self.X, self.Y, self.Z, self.W)
 end

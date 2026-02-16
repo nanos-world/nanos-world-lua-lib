@@ -76,5 +76,5 @@ function Vector2D:__eq(other)
 end
 
 function Vector2D:__tostring()
-	return "Vector2D(X = " .. self.X .. ", Y = " .. self.Y .. ")"
+	return string.format("Vector2D(X = %.2f, Y = %.2f)", self.X, self.Y)
 end

@@ -57,14 +57,16 @@ function Rotator:__mul(other)
 end
 
 function Rotator:__tostring()
-	return "Rotator(Pitch = " .. self.Pitch .. ", Yaw = " .. self.Yaw .. ", Roll = " .. self.Roll .. ")"
+	return string.format("Rotator(Pitch = %.2f, Yaw = %.2f, Roll = %.2f)", self.Pitch, self.Yaw, self.Roll)
 end
 
 function Rotator:Equals(other, tolerance)
 	if not tolerance then tolerance = 0.000001 end
-	return math.abs(NanosMath.NormalizeAxis(self.Pitch - other.Pitch)) <= tolerance
-			and math.abs(NanosMath.NormalizeAxis(self.Yaw - other.Yaw)) <= tolerance
-			and math.abs(NanosMath.NormalizeAxis(self.Roll - other.Roll)) <= tolerance
+
+	return
+		math.abs(NanosMath.NormalizeAxis(self.Pitch - other.Pitch)) <= tolerance and
+		math.abs(NanosMath.NormalizeAxis(self.Yaw - other.Yaw)) <= tolerance and
+		math.abs(NanosMath.NormalizeAxis(self.Roll - other.Roll)) <= tolerance
 end
 
 function Rotator:GetNormalized()
@@ -75,19 +77,23 @@ end
 
 function Rotator:IsNearlyZero(tolerance)
 	if not tolerance then tolerance = 0.000001 end
-	return math.abs(self.Pitch) <= tolerance and math.abs(self.Yaw) <= tolerance and math.abs(self.Roll) <= tolerance
+
+	return
+		math.abs(self.Pitch) <= tolerance and
+		math.abs(self.Yaw) <= tolerance and
+		math.abs(self.Roll) <= tolerance
 end
 
 function Rotator:IsZero()
 	return self.Pitch == 0 and self.Yaw == 0 and self.Roll == 0
 end
 
-function Rotator:RotateVector(V)
-	return Matrix(self):TransformVector(V)
+function Rotator:RotateVector(vector)
+	return Matrix(self):TransformVector(vector)
 end
 
-function Rotator:UnrotateVector(V)
-	return Matrix(self):GetTransposed():TransformVector(V)
+function Rotator:UnrotateVector(vector)
+	return Matrix(self):GetTransposed():TransformVector(vector)
 end
 
 function Rotator:GetForwardVector()
