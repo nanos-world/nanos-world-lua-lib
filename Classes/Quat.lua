@@ -135,15 +135,15 @@ function Quat:UnrotateVector(vector)
 end
 
 function Quat:GetForwardVector()
-	return self:RotateVector({ X = 1, Y = 0, Z = 0})
+	return self:RotateVector({ X = 1, Y = 0, Z = 0 })
 end
 
 function Quat:GetRightVector()
-	return self:RotateVector({ X = 0, Y = 1, Z = 0})
+	return self:RotateVector({ X = 0, Y = 1, Z = 0 })
 end
 
 function Quat:GetUpVector()
-	return self:RotateVector({ X = 0, Y = 0, Z = 1})
+	return self:RotateVector({ X = 0, Y = 0, Z = 1 })
 end
 
 function Quat:Rotator()
